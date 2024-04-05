@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Numpy" Version="3.11.1.33" />
+    <PackageReference Include="Pidgin" Version="3.2.3" />
   </ItemGroup>
 
 </Project>

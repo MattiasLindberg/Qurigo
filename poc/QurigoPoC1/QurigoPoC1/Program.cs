@@ -1,39 +1,93 @@
-﻿namespace QurigoPoC1;
+﻿using System.Numerics;
+
+
+namespace QurigoPoC1;
 
 internal class Program
 {
     static void Main(string[] args)
     {
-        ApplyHadamard();
+        // Vector representation of a qubit
 
-        MeasureNonEqualDist();
+        //ApplyHadamard();
 
-        MeasureHadamard();
+        //MeasureNonEqualDist();
 
-        PauliXOn3Qubits();
+        //MeasureHadamard();
 
-        PauliXOn3QubitsAgain();
+        //PauliXOn3Qubits();
 
-        CircuitThroughMultipleOperations();
+        //PauliXOn3QubitsAgain();
 
-        LargeQubit();
+        //CircuitThroughMultipleOperations();
+
+        //LargeQubit();
+
+
+        // Density matrix representation of a qubit
+
+        //double a = Math.Sqrt(1D / 2);
+        //DensityMatrixState densityMatrixState = new DensityMatrixState(new Complex[]
+        //{ 
+        //    new Complex(0, 0),
+        //    new Complex(a, 0),
+        //    new Complex(a, 0),
+        //    new Complex(0, 0),
+        //});
+        //Console.WriteLine(densityMatrixState.ToString());
+        //densityMatrixState = densityMatrixState.PauliY(1);
+        //Console.WriteLine(densityMatrixState.ToString());
+        //densityMatrixState = densityMatrixState.Hadamard(2);
+        //Console.WriteLine(densityMatrixState.ToString());
+
+        //DensityMatrixState densityMatrixState = new DensityMatrixState(new double[]
+        //{
+        //    1, 0, 0
+        //});
+        //Console.WriteLine(densityMatrixState.ToString());
+        //densityMatrixState = densityMatrixState.CNOT(1, 3);
+        //Console.WriteLine(densityMatrixState.ToString());
+
+        //VectorState2 state2 = new VectorState2(new double[]
+        //{
+        //    0, 1, 0, 0, 0, 0, 0, 0
+        //});
+        //Console.WriteLine(state2.ToString());
+        //state2 = state2.CNOT(3, 1);
+        //Console.WriteLine(state2.ToString());
+
+        VectorState2 state2 = new VectorState2(new double[]
+        {
+                    0, 0, 0, 0,    0, 0, 0, 1,    0, 0, 0, 0,    0, 0, 0, 0
+        });
+        Console.WriteLine(state2.ToString());
+        state2 = state2.CNOT(1, 4);
+        Console.WriteLine(state2.ToString());
+
+
+        string program = "x q[1];\n x q[3];\n h q[2];\n cx q[2] q[3];\n h q[3]; ";
+
+        OpenQASMParser parser = new OpenQASMParser();
+        parser.Parse(program);
+        Console.WriteLine(parser._state.ToString());
     }
 
     private static void CircuitThroughMultipleOperations()
     {
         // Building a circuit through a series of operations
         double a = Math.Sqrt(1D / 2);
-        Qubit q = new Qubit(new double[] { 0, a, 0, 0, 0, 0, 0, a });
+        VectorState q = new VectorState(new double[] { 0, a, 0, 0, 0, 0, 0, a });
         q.PauliX(2).Hadamard(2).PauliX(3).Hadamard(1);
         var result = q.Measure();
 
-        // Alternative circuit is to pre-define a matrix operator the perform
+
+        // Alternative circuit is to pre-define a matrix operator that perform
         // multiple transformations in one operation.
     }
 
     private static void LargeQubit()
     {
-        var q2 = new Qubit(10);
+        var q2 = new VectorState(10);
         q2 = q2.Hadamard(1);
         Console.WriteLine(q2.ToString());
         q2 = q2.Hadamard(8);
@@ -43,12 +97,12 @@ internal class Program
     private static void ApplyHadamard()
     {
         // Apply Hadamard on {1, 0}
-        Console.WriteLine(new Qubit(new double[] { 1, 0 }).Hadamard(1).ToString());
+        Console.WriteLine(new VectorState(new double[] { 1, 0 }).Hadamard(1).ToString());
 
         // Double Hadamard brings back original state
-        Console.WriteLine(new Qubit(new double[] { 1, 0 }).Hadamard(1).Hadamard(1).ToString());
+        Console.WriteLine(new VectorState(new double[] { 1, 0 }).Hadamard(1).Hadamard(1).ToString());
 
-        Qubit q = new Qubit(new double[] { Math.Sqrt(3D/4), Math.Sqrt(1D/4) });
+        VectorState q = new VectorState(new double[] { Math.Sqrt(3D/4), Math.Sqrt(1D/4) });
         // Print original state
         Console.WriteLine(q.ToString());
         q = q.Hadamard(1);
@@ -65,7 +119,7 @@ internal class Program
 
         double a = Math.Sqrt(3D/4);
         double b = Math.Sqrt(1D/4);
-        Qubit q = new Qubit(new double[] { a, b });
+        VectorState q = new VectorState(new double[] { a, b });
 
         int zeroCount = 0;
         int oneCount = 0;
@@ -85,50 +139,50 @@ internal class Program
     private static void MeasureHadamard()
     {
         Console.WriteLine("Measuring a qubit after applying Hadamard. There should be equal distribution of 0s and 1s.");
-        Console.WriteLine(new Qubit(new double[] { 0, 1 }).Hadamard(1).ToString());
+        Console.WriteLine(new VectorState(new double[] { 0, 1 }).Hadamard(1).ToString());
 
-        Console.WriteLine(new Qubit(new double[] { 0, 1 }).Hadamard(1).Measure());
-        Console.WriteLine(new Qubit(new double[] { 0, 1 }).Hadamard(1).Measure());
-        Console.WriteLine(new Qubit(new double[] { 0, 1 }).Hadamard(1).Measure());
-        Console.WriteLine(new Qubit(new double[] { 0, 1 }).Hadamard(1).Measure());
-        Console.WriteLine(new Qubit(new double[] { 0, 1 }).Hadamard(1).Measure());
+        Console.WriteLine(new VectorState(new double[] { 0, 1 }).Hadamard(1).Measure());
+        Console.WriteLine(new VectorState(new double[] { 0, 1 }).Hadamard(1).Measure());
+        Console.WriteLine(new VectorState(new double[] { 0, 1 }).Hadamard(1).Measure());
+        Console.WriteLine(new VectorState(new double[] { 0, 1 }).Hadamard(1).Measure());
+        Console.WriteLine(new VectorState(new double[] { 0, 1 }).Hadamard(1).Measure());
 
-        Console.WriteLine(new Qubit(new double[] { 0, 1 }).Hadamard(1).Measure());
-        Console.WriteLine(new Qubit(new double[] { 0, 1 }).Hadamard(1).Measure());
-        Console.WriteLine(new Qubit(new double[] { 0, 1 }).Hadamard(1).Measure());
-        Console.WriteLine(new Qubit(new double[] { 0, 1 }).Hadamard(1).Measure());
-        Console.WriteLine(new Qubit(new double[] { 0, 1 }).Hadamard(1).Measure());
+        Console.WriteLine(new VectorState(new double[] { 0, 1 }).Hadamard(1).Measure());
+        Console.WriteLine(new VectorState(new double[] { 0, 1 }).Hadamard(1).Measure());
+        Console.WriteLine(new VectorState(new double[] { 0, 1 }).Hadamard(1).Measure());
+        Console.WriteLine(new VectorState(new double[] { 0, 1 }).Hadamard(1).Measure());
+        Console.WriteLine(new VectorState(new double[] { 0, 1 }).Hadamard(1).Measure());
     }
 
-    private static Qubit PauliXOn3QubitsAgain()
+    private static VectorState PauliXOn3QubitsAgain()
     {
-        Qubit q;
+        VectorState q;
         double a = Math.Sqrt(1D/2);
 
         Console.WriteLine("Flipping the THIRD qubit");
-        q = new Qubit(new double[] { 0, a, 0, 0, 0, 0, 0, a });
+        q = new VectorState(new double[] { 0, a, 0, 0, 0, 0, 0, a });
         Console.WriteLine(q.ToString());
         Console.WriteLine(q.PauliX(3).ToString());
         return q;
     }
 
-    private static Qubit PauliXOn3Qubits()
+    private static VectorState PauliXOn3Qubits()
     {
-        Qubit q;
+        VectorState q;
         double a = Math.Sqrt(1D/4);
 
         Console.WriteLine("Flipping the FIRST qubit");
-        q = new Qubit(new double[] { a, a, a, a, 0, 0, 0, 0 });
+        q = new VectorState(new double[] { a, a, a, a, 0, 0, 0, 0 });
         Console.WriteLine(q.ToString());
         Console.WriteLine(q.PauliX(1).ToString());
 
         Console.WriteLine("Flipping the SECOND qubit");
-        q = new Qubit(new double[] { a, a, 0, 0, a, a, 0, 0 });
+        q = new VectorState(new double[] { a, a, 0, 0, a, a, 0, 0 });
         Console.WriteLine(q.ToString());
         Console.WriteLine(q.PauliX(2).ToString());
 
         Console.WriteLine("Flipping the THIRD qubit");
-        q = new Qubit(new double[] { 0, a, 0, a, 0, a, 0, a });
+        q = new VectorState(new double[] { 0, a, 0, a, 0, a, 0, a });
         Console.WriteLine(q.ToString());
         Console.WriteLine(q.PauliX(3).ToString());
         return q;

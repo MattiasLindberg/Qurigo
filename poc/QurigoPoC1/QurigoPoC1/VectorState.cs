@@ -2,10 +2,9 @@
 using System.Drawing;
 using System.Text;
 
-
 namespace QurigoPoC1;
 
-public class Qubit
+public class VectorState
 {
     private NDarray X = np.array(new double[,] { { 0, 1 }, { 1, 0 } });
     private NDarray I = np.array(new double[,] { { 1, 0 }, { 0, 1 } });
@@ -29,18 +28,18 @@ public class Qubit
         //        return string.Join(", ", .Select(item => , item)));
     }
 
-    public Qubit(double[] state)
+    public VectorState(double[] state)
     {
         State = np.array(state);
     }
 
-    public Qubit(int numberOfQubit)
+    public VectorState(int numberOfQubit)
     {
         State = np.zeros((int)Math.Pow(2, numberOfQubit));
         State[0] = (NDarray)1D;
     }
 
-    public Qubit PauliX(int actOnQubit)
+    public VectorState PauliX(int actOnQubit)
     {
         int qubitCount = (int)Math.Log(State.size, 2);
         NDarray Px = I;
@@ -66,7 +65,7 @@ public class Qubit
         return this;
     }
 
-    public Qubit Hadamard(int actOnQubit)
+    public VectorState Hadamard(int actOnQubit)
     {
         int qubitCount = (int)Math.Log(State.size, 2);
         NDarray Px = I;
