@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Numpy" Version="3.11.1.33" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Qurigo.Interfaces\Qurigo.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>
