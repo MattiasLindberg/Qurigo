@@ -58,11 +58,19 @@ internal class Program
 
         VectorState2 state2 = new VectorState2(new double[]
         {
-                    0, 0, 0, 0,    0, 0, 0, 1,    0, 0, 0, 0,    0, 0, 0, 0
+            1, 0, 0, 0
         });
         Console.WriteLine(state2.ToString());
-        state2 = state2.CNOT(1, 4);
+        state2 = state2.CNOT(1, 2);
         Console.WriteLine(state2.ToString());
+
+        //VectorState2 state2 = new VectorState2(new double[]
+        //{
+        //    0, 0, 0, 0,    0, 0, 0, 1,    0, 0, 0, 0,    0, 0, 0, 0
+        //});
+        //Console.WriteLine(state2.ToString());
+        //state2 = state2.CNOT(1, 4);
+        //Console.WriteLine(state2.ToString());
 
 
         string program = "x q[1];\n x q[3];\n h q[2];\n cx q[2] q[3];\n h q[3]; ";

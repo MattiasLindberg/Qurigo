@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Qurigo.Circuit.BaseCircuit\Qurigo.Circuit.BaseCircuit.csproj" />
+    <ProjectReference Include="..\Qurigo.InstructionSet.HTCNOT\Qurigo.InstructionSet.HTCNOT.csproj" />
+    <ProjectReference Include="..\Qurigo.Interfaces\Qurigo.Interfaces.csproj" />
+    <ProjectReference Include="..\Qurigo.State.VectorState\Qurigo.State.VectorState.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Programs\IBM2.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\GrooverIBM.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\mini1.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
