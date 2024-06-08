@@ -1,8 +1,10 @@
 ﻿using Numpy;
+using Numpy.Models;
 using Qurigo.Interfaces;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Security.Principal;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Qurigo.InstructionSet.HTCNOT;
 
@@ -171,6 +173,86 @@ public class HTCNOTXYZ : IInstructionSet
         var res = np.dot(step1.Base, np.dot(step2.Base, step3.Base));
         return new Gate(res);
     }
+
+    public IGate S(int actOnQubit)
+    {
+        NDarray zGate = np.array(new Complex[,]
+        {
+            { 1, 0 },
+            { 0, new Complex(0,1) }
+        });
+
+        NDarray matrix = GenericGateLittleEndian(zGate, actOnQubit);
+
+        return new Gate(matrix);
+    }
+
+    public IGate CRk(int controlQubit, int actOnQubit, int k)
+    {
+        NDarray rkGate = np.array(new Complex[,]
+        {
+            { 1, 0 },
+            { 0, Complex.Exp(
+                new Complex(0,1) * 2 * Math.PI / Math.Pow(2, k)
+                ) }
+        });
+
+        NDarray matrix = GenericControlledLittleEndian(rkGate, controlQubit, actOnQubit);
+
+        //NDarray zGate = np.array(new double[,]
+        //{
+        //    { 1, 0 },
+        //    { 0, -1 }
+        //});
+
+        //NDarray sGate = np.array(new Complex[,]
+        //{
+        //    { 1, 0 },
+        //    { 0, new Complex(0,1) }
+        //});
+
+        //NDarray tGate = np.array(new Complex[,]
+        //{
+        //    { 1, 0 },
+        //    { 0, new Complex(1/Math.Sqrt(2), 1/Math.Sqrt(2)) }
+        //});
+
+
+        //NDarray matrix = null;
+        //switch (k)
+        //{
+        //    case 1:
+        //        matrix = GenericControlledLittleEndian(zGate, controlQubit, actOnQubit);
+        //        break;
+        //    case 2:
+        //        matrix = GenericControlledLittleEndian(sGate, controlQubit, actOnQubit);
+        //        break;
+        //    case 3:
+        //        matrix = GenericControlledLittleEndian(tGate, controlQubit, actOnQubit);
+        //        break;
+        //    default:
+        //        throw new NotImplementedException();
+        //}
+
+        return new Gate(matrix);
+    }
+
+
+    public IGate SX(int actOnQubit)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IGate ECR(int actOnQubit1, int actOnQubit2)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IGate RZ(int actOnQubit, double theta)
+    {
+        throw new NotImplementedException();
+    }
+
 
     public NDarray GenericControlledLittleEndian(NDarray gateMatrix, int controlQubit, int actOnQubit)
     {
@@ -397,20 +479,5 @@ public class HTCNOTXYZ : IInstructionSet
         }
 
         return gate;
-    }
-
-    public IGate SX(int actOnQubit)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IGate ECR(int actOnQubit1, int actOnQubit2)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IGate RZ(int actOnQubit, double theta)
-    {
-        throw new NotImplementedException();
     }
 }

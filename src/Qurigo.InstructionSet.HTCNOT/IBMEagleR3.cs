@@ -244,7 +244,17 @@ public class IBMEagleR3 : IInstructionSet
         return new Gate(matrix);
     }
 
-    public NDarray GenericControlledLittleEndian(NDarray gateMatrix, int controlQubit, int actOnQubit)
+    public IGate S(int actOnQubit)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IGate CRk(int controlQubit, int actOnQubit, int k)
+    {
+        throw new NotImplementedException();
+    }
+
+        public NDarray GenericControlledLittleEndian(NDarray gateMatrix, int controlQubit, int actOnQubit)
     {
         int newControl = _qubitCount - controlQubit - 1;
         int newActOn = _qubitCount - actOnQubit - 1;

@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qurigo.Circuit.BaseCircuit"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qurigo.InstructionSet.HTCNOT", "Qurigo.InstructionSet.HTCNOT\Qurigo.InstructionSet.HTCNOT.csproj", "{D8BA3017-186A-4049-BF06-625E4C07EEF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qurigo.UnitTests", "Qurigo.UnitTests\Qurigo.UnitTests.csproj", "{16F32CE5-6E27-4D30-881F-37876D5B4CE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qurigo.UnitTests", "Qurigo.UnitTests\Qurigo.UnitTests.csproj", "{16F32CE5-6E27-4D30-881F-37876D5B4CE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qurigo.Api", "Qurigo.Api\Qurigo.Api.csproj", "{B521BFA9-DE88-42CE-BF07-700CB1474D03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qurigo.Factorization", "Qurigo.Factorization\Qurigo.Factorization.csproj", "{9442D8B6-47D1-498E-B700-D11D625D0CD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{16F32CE5-6E27-4D30-881F-37876D5B4CE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16F32CE5-6E27-4D30-881F-37876D5B4CE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16F32CE5-6E27-4D30-881F-37876D5B4CE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B521BFA9-DE88-42CE-BF07-700CB1474D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B521BFA9-DE88-42CE-BF07-700CB1474D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B521BFA9-DE88-42CE-BF07-700CB1474D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B521BFA9-DE88-42CE-BF07-700CB1474D03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9442D8B6-47D1-498E-B700-D11D625D0CD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9442D8B6-47D1-498E-B700-D11D625D0CD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9442D8B6-47D1-498E-B700-D11D625D0CD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9442D8B6-47D1-498E-B700-D11D625D0CD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

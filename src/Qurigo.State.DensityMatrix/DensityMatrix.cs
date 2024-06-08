@@ -1,5 +1,6 @@
 ﻿using Numpy;
 using Qurigo.Interfaces;
+using System.Numerics;
 
 namespace Qurigo.State.DensityMatrix;
 
@@ -18,6 +19,11 @@ public class DensityMatrix : IState
     }
 
     public void Initialize(int qubitCount)
+    {
+        throw new NotImplementedException();
+    }
+
+    Complex[] IState.ToArray()
     {
         throw new NotImplementedException();
     }

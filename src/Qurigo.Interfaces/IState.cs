@@ -1,4 +1,5 @@
 ﻿using Numpy;
+using System.Numerics;
 
 namespace Qurigo.Interfaces;
 public interface IState
@@ -9,4 +10,5 @@ public interface IState
     void Initialize(int qubitCount);
     NDarray State { get; }
     string ToString();
+    Complex[] ToArray();
 }
