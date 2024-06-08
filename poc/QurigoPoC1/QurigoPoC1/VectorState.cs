@@ -92,7 +92,20 @@ public class VectorState
         return this;
     }
 
-    public double Measure()
+    public double MeasureAll()
+    {
+        var probabilities = np.abs(State).pow(2);
+        double[] values = new double[State.size];
+
+        for (int i = 0; i < State.size; i++)
+        {
+            values[i] = i;
+        }
+        var measurement_result = np.random.choice(values, null, true, probabilities.flatten());
+        return (double)measurement_result;
+    }
+
+    public double Measure(int qubit)
     {
         var probabilities = np.abs(State).pow(2);
         double[] values = new double[State.size];

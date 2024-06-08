@@ -21,5 +21,7 @@ public interface IInstructionSet
     IGate SX(int actOnQubit);
     IGate ECR(int actOnQubit1, int actOnQubit2);
     IGate RZ(int actOnQubit, double theta);
+    IGate S(int actOnQubit);
 
+    IGate CRk(int controlQubit, int actOnQubit, int k);
 }

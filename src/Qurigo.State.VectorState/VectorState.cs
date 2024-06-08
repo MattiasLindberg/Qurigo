@@ -20,6 +20,19 @@ public class VectorState : IState
         return this;
     }
 
+    public double Measure()
+    {
+        var probabilities = np.abs(State).pow(2);
+        double[] values = new double[State.size];
+
+        for (int i = 0; i < State.size; i++)
+        {
+            values[i] = i;
+        }
+        var measurement_result = np.random.choice(values, null, true, probabilities.flatten());
+        return (double)measurement_result;
+    }
+
     public void Initialize(int qubitCount)
     {
         Size = (int)Math.Pow(2, qubitCount);
@@ -65,5 +78,10 @@ public class VectorState : IState
             sb.AppendLine($"|{binaryString}> = {stateValue}");
         }
         return sb.ToString();
+    }
+
+    Complex[] IState.ToArray()
+    {
+        return _state.GetData<Complex>();
     }
 }

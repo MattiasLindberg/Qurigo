@@ -146,4 +146,52 @@ public class HTCNOTXYZOtherGatesTests
 
         Assert.IsTrue(np.allclose(result, expected));
     }
+
+    [TestMethod]
+    public void CRk_1()
+    {
+        _circuit.ExecuteProgram("qreg q[2];\ncrk q[0], q[1], 1;");
+
+        var result = _circuit.GetState().State;
+        var expected = np.array(new Complex[] {
+            new Complex(1, 0),
+            new Complex(0, 0),
+            new Complex(0, 0),
+            new Complex(0, 0),
+        });
+
+        Assert.IsTrue(np.allclose(result, expected));
+    }
+
+    [TestMethod]
+    public void CRk_2()
+    {
+        _circuit.ExecuteProgram("qreg q[2];\nx q[0];\ncrk q[0], q[1], 1;");
+
+        var result = _circuit.GetState().State;
+        var expected = np.array(new Complex[] {
+            new Complex(0, 0),
+            new Complex(1, 0),
+            new Complex(0, 0),
+            new Complex(0, 0),
+        });
+
+        Assert.IsTrue(np.allclose(result, expected));
+    }
+
+    [TestMethod]
+    public void CRk_3()
+    {
+        _circuit.ExecuteProgram("qreg q[2];\nx q[0];\nx q[1];\ncrk q[0], q[1], 1;");
+
+        var result = _circuit.GetState().State;
+        var expected = np.array(new Complex[] {
+            new Complex(0, 0),
+            new Complex(0, 0),
+            new Complex(0, 0),
+            new Complex(0, 1),
+        });
+
+        Assert.IsTrue(np.allclose(result, expected));
+    }
 }

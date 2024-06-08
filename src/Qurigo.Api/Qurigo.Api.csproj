@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Qurigo.Circuit.BaseCircuit\Qurigo.Circuit.BaseCircuit.csproj" />
+    <ProjectReference Include="..\Qurigo.InstructionSet.HTCNOT\Qurigo.InstructionSet.HTCNOT.csproj" />
+    <ProjectReference Include="..\Qurigo.Interfaces\Qurigo.Interfaces.csproj" />
+    <ProjectReference Include="..\Qurigo.State.VectorState\Qurigo.State.VectorState.csproj" />
+  </ItemGroup>
+
+</Project>
