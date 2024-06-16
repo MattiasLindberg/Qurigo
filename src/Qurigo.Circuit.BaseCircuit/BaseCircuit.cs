@@ -87,10 +87,10 @@ public class BaseCircuit : ICircuit
         {
             // Split each line into tokens
             string[] tokens = lines[loop].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            int actOnQubit1 = -1;
-            int actOnQubit2 = -1;
-            int controlQubit1 = -1;
-            int controlQubit2 = -1;
+            int actOnQubit1;
+            int actOnQubit2;
+            int controlQubit1;
+            int controlQubit2;
 
             if( tokens.Length == 0 )
             {

@@ -19,19 +19,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Programs\IBM2.qasm">
+    <None Update="Programs\crk validation.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Programs\GrooverIBM.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Programs\crk validation.qasm">
+    <None Update="Programs\IBM2.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\mini1.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\mini_function.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\qft3i_function.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Programs\qft_2-inverse.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Programs\qft3i_function.qasm">
+    <None Update="Programs\qft_2.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Programs\qft_3-inverse.qasm">
@@ -40,10 +49,31 @@
     <None Update="Programs\qft_3.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Programs\qft_2.qasm">
+    <None Update="Programs-CircuitParsing\IBM2.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Programs\mini1.qasm">
+    <None Update="Programs-CircuitParsing\GrooverIBM.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs-CircuitParsing\crk validation.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs-CircuitParsing\qft_2-inverse.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs-CircuitParsing\qft3i_function.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs-CircuitParsing\qft_3-inverse.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs-CircuitParsing\qft_3.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs-CircuitParsing\qft_2.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs-CircuitParsing\mini1.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

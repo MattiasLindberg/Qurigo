@@ -19,7 +19,14 @@ internal class Program
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
 
-        string program = File.ReadAllText("Programs/qft3i_function.qasm");
+        string program = File.ReadAllText("Programs/mini_function.qasm");
+
+        Parser parser = new Parser();
+        parser.Parse(new Tokenizer(program));
+        foreach (var node in parser.Nodes)
+        {
+            node.Execute();
+        }
 
         var circuit = serviceProvider.GetService<ICircuit>();
         circuit.ExecuteProgram(program);

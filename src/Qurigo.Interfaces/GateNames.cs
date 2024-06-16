@@ -13,5 +13,10 @@ public enum GateNames
     SqrtX = 128,
     RX = 256,
     RY = 512,
-    RZ = 1024
+    RZ = 1024,
+    SWAP = 2048,
+    Toffoli = 4096,
+    SX = 8192,
+    ECR = 16384,
+    CRk = 32768
 }
