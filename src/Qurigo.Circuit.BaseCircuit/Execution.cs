@@ -1,9 +1,11 @@
-﻿using Qurigo.Circuit.BaseCircuit;
+﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Qurigo.Circuit.BaseCircuit;
 using Qurigo.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Qurigo.Circuit.BaseCircuit;
@@ -13,12 +15,15 @@ public interface IExecutionContext
     void SetVariable(string name, object value);
     object GetVariable(string name);
     IQuantumCircuit QuantumCircuit { get; set; }
+    List<FunctionParameter> FunctionParameters { get; set; }
 
 }
 
 public class ExecutionContext : IExecutionContext
 {
     public IQuantumCircuit QuantumCircuit { get; set; }
+
+    public List<FunctionParameter> FunctionParameters { get; set; }
 
     public ExecutionContext(IQuantumCircuit quantumCircuit)
     {
@@ -54,6 +59,12 @@ public class Parameter
     public int Index { get; set; }
 }
 
+public class FunctionParameter
+{
+    public string Name { get; set; }
+    public int Value { get; set; }
+}
+
 public class Argument
 {
     public string Name { get; set; }
@@ -86,13 +97,12 @@ public class SubroutineNode : IExecutionNode
 
 public class CallSubroutineNode : IExecutionNode
 {
-    public IList<Argument> Arguments;
+    public List<FunctionParameter> FunctionParameters;
     public SubroutineNode Subroutine;
 
     public void Execute(IExecutionContext context)
     {
-        // TODO: Implement argument passing
-
+        context.FunctionParameters = FunctionParameters;
         foreach (var node in Subroutine.Nodes)
         {
             node.Execute(context);
@@ -125,6 +135,11 @@ public class GateNode : IExecutionNode
     }
 }
 
+public class GlobalsDictionary
+{
+    public Dictionary<string, object> Variables { get; set; }
+}
+
 public class IfNode : IExecutionNode
 {
     public Expression Condition;
@@ -133,7 +148,62 @@ public class IfNode : IExecutionNode
 
     public void Execute(IExecutionContext context)
     {
-        throw new NotImplementedException();
+        Dictionary<string, object> globals = new Dictionary<string, object>();
+
+        if (context.FunctionParameters != null)
+        {
+            foreach (var parameter in context.FunctionParameters)
+            {
+                globals.Add(parameter.Name, parameter.Value);
+            }
+        }
+
+        // Get condition for the if statement and evaluate it.
+        string expression = Condition.Variable + Condition.Operator + Condition.Value;
+        string declarions = GenerateVariablesCode(context);
+        string script = GenerateScript(expression, declarions);
+        bool conditionResult = CSharpScript.EvaluateAsync<bool>(script).Result;
+
+        if(conditionResult)
+        {
+            foreach (var node in IfNodes)
+            {
+                node.Execute(context);
+            }
+        }
+        else if(ElseNodes != null)
+        {
+            foreach (var node in ElseNodes)
+            {
+                node.Execute(context);
+            }
+        }
+    }
+
+
+    private string GenerateScript(string expression, string declarations)
+    {
+        // Generates a script that reads variables from the Globals dictionary
+        return @$"
+            bool Evaluate()
+            {{
+                {declarations}
+                return {expression};
+            }}
+
+            return Evaluate();
+        ";
+    }
+
+    private string GenerateVariablesCode(IExecutionContext context)
+    {
+        string declarations = "";
+        foreach (var parameter in context.FunctionParameters)
+        {
+            declarations += $"var {parameter.Name} = (int){parameter.Value}; \n";
+        }
+
+        return declarations;
     }
 }
 
@@ -144,7 +214,24 @@ public class WhileNode : IExecutionNode
 
     public void Execute(IExecutionContext context)
     {
-        throw new NotImplementedException();
+        int arg1 = 0;
+
+        // Get condition for the if statement and evaluate it.
+        string expression = Condition.Variable + Condition.Operator + Condition.Value;
+        bool conditionResult = CSharpScript.EvaluateAsync<bool>(expression, globals: new Globals { arg1 = arg1}).Result;
+
+        while (conditionResult)
+        {
+            foreach (var node in Nodes)
+            {
+                node.Execute(context);
+            }
+
+            // And the arg1 must be updated to somehow break the loop
+            arg1++;
+
+            conditionResult = CSharpScript.EvaluateAsync<bool>(expression, globals: new Globals { arg1 = arg1 }).Result;
+        }
     }
 }
 

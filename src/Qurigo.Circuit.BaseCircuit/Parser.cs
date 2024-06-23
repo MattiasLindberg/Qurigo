@@ -36,20 +36,20 @@ public class Parser
                     if(Subroutines.ContainsKey(token.Value))
                     {
                         SubroutineNode subroutineNode = Subroutines[token.Value];
+                        CallSubroutineNode callSubroutineNode = new CallSubroutineNode
+                        {
+                            FunctionParameters = new List<FunctionParameter>(),
+                            Subroutine = subroutineNode
+                        };
+                        nodes.Add(callSubroutineNode);
+
                         if (subroutineNode.Arguments.Count == 1)
                         {
-                            CallSubroutineNode callSubroutineNode = new CallSubroutineNode
-                            {
-                                Arguments = new List<Argument>(),
-                                Subroutine = subroutineNode
-                            };
-                            nodes.Add(callSubroutineNode);
-
                             // Parse arguments
                             token = tokenizer.NextToken(TokenType.LeftParenthesis);
                             token = tokenizer.NextToken(TokenType.Number);
-                            // TODO: Do something with the argument
 
+                            callSubroutineNode.FunctionParameters.Add(new FunctionParameter { Name = subroutineNode.Arguments[0].Name, Value = int.Parse(token.Value) });
                             token = tokenizer.NextToken(TokenType.RightParenthesis);
                         }
                         else
@@ -57,7 +57,6 @@ public class Parser
                             token = tokenizer.NextToken(TokenType.LeftParenthesis);
                             token = tokenizer.NextToken(TokenType.RightParenthesis);
                         }
-                        nodes.Add(subroutineNode);
                     }
                     else if(Parameters.ContainsKey(token.Value))
                     {
@@ -182,7 +181,7 @@ public class Parser
                             break;
 
                         // Two qubit gates
-                        case Interfaces.GateNames.CNOT:
+                        case Interfaces.GateNames.CX:
                         case Interfaces.GateNames.SWAP:
                             var gateTwoQubits = new GateNode
                             {
@@ -226,6 +225,69 @@ public class Parser
                             param2.Index = int.Parse(token.Value);
 
                             token = tokenizer.NextToken(TokenType.RightBracket);
+
+                            token = tokenizer.NextToken(TokenType.SemiColon);
+                            break;
+
+                        // Two qubit gates + number
+                        case Interfaces.GateNames.CRK:
+                            var gateThreeQubits = new GateNode
+                            {
+                                GateType = token.GateType,
+                                Parameters = new List<Parameter>()
+                            };
+                            nodes.Add(gateThreeQubits);
+
+                            token = tokenizer.NextToken(TokenType.Identifier);
+                            var param3 = new Parameter
+                            {
+                                Name = token.Value,
+                                Type = "qubit"
+                            };
+                            gateThreeQubits.Parameters.Add(param3);
+
+                            token = tokenizer.NextToken(TokenType.LeftBracket);
+
+                            token = tokenizer.NextToken(TokenType.Number);
+                            param3.Index = int.Parse(token.Value);
+
+                            token = tokenizer.NextToken(TokenType.RightBracket);
+
+                            token = tokenizer.NextToken();
+                            if (token.Value != ",")
+                            {
+                                throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
+                            }
+
+                            token = tokenizer.NextToken(TokenType.Identifier);
+                            param3 = new Parameter
+                            {
+                                Name = token.Value,
+                                Type = "qubit"
+                            };
+                            gateThreeQubits.Parameters.Add(param3);
+
+                            token = tokenizer.NextToken(TokenType.LeftBracket);
+
+                            token = tokenizer.NextToken(TokenType.Number);
+                            param3.Index = int.Parse(token.Value);
+
+                            token = tokenizer.NextToken(TokenType.RightBracket);
+
+                            token = tokenizer.NextToken();
+                            if (token.Value != ",")
+                            {
+                                throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
+                            }
+
+                            token = tokenizer.NextToken(TokenType.Number);
+                            param3 = new Parameter
+                            {
+                                Name = token.Value,
+                                Type = "qubit",
+                                Index = int.Parse(token.Value)
+                            };
+                            gateThreeQubits.Parameters.Add(param3);
 
                             token = tokenizer.NextToken(TokenType.SemiColon);
                             break;

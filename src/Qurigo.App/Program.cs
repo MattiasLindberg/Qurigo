@@ -23,12 +23,12 @@ internal class Program
         var serviceProvider = serviceCollection.BuildServiceProvider();
 
         QurigoApp app = new QurigoApp(serviceProvider.GetService<ICircuit>(), serviceProvider.GetService<IQuantumCircuit>(), serviceProvider.GetService<IExecutionContext>());
-        app.Run();
+        app.Run("Programs/mini4.qasm");
 
-        // string program = File.ReadAllText("Programs/mini2.qasm");
-        // var circuit = serviceProvider.GetService<ICircuit>();
-        // circuit.ExecuteProgram(program);
-        // Console.WriteLine(circuit.GetState().ToString());
+        //string program = File.ReadAllText("Programs-CircuitParsing/mini3.qasm");
+        //var circuit = serviceProvider.GetService<ICircuit>();
+        //circuit!.ExecuteProgram(program);
+        //Console.WriteLine(circuit.GetState().ToString());
     }
 }
 
@@ -45,9 +45,9 @@ internal class QurigoApp
         _executionContext = executionContext;
     }
 
-    public void Run()
+    public void Run(string filepath)
     {
-        string program = File.ReadAllText("Programs/mini3.qasm");
+        string program = File.ReadAllText(filepath);
 
         Parser parser = new Parser();
         parser.Parse(new Tokenizer(program));

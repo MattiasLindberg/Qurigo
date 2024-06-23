@@ -57,11 +57,11 @@ public class QuantumCircuit : IQuantumCircuit
                 _state.ApplyGate(_instructionSet.SWAP(parameters[0].Index, parameters[1].Index));
                 break;
 
-            case GateNames.CNOT:
+            case GateNames.CX:
                 _state.ApplyGate(_instructionSet.CNOT(parameters[0].Index, parameters[1].Index));
                 break;
 
-            case GateNames.CRk:
+            case GateNames.CRK:
                 _state.ApplyGate(_instructionSet.CRk(parameters[0].Index, parameters[1].Index, parameters[2].Index));
                 break;
         }

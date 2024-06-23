@@ -9,7 +9,7 @@ namespace Qurigo.InstructionSet.HTCNOT;
 
 public class IBMEagleR3 : IInstructionSet
 {
-    public GateNames NativeGates => GateNames.H | GateNames.T | GateNames.CNOT | GateNames.X | GateNames.Y | GateNames.Z;
+    public GateNames NativeGates => GateNames.H | GateNames.T | GateNames.CX | GateNames.X | GateNames.Y | GateNames.Z;
 
     public GateNames SupportedGates => NativeGates | GateNames.SqrtX;
 

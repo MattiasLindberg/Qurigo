@@ -7,7 +7,7 @@ public enum GateNames
     Y = 2,
     Z = 4,
     H = 8,
-    CNOT = 16,
+    CX = 16,
     T = 32,
     S = 64,
     SqrtX = 128,
@@ -18,5 +18,5 @@ public enum GateNames
     Toffoli = 4096,
     SX = 8192,
     ECR = 16384,
-    CRk = 32768
+    CRK = 32768
 }
