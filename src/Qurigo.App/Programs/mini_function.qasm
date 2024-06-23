@@ -1,5 +1,7 @@
 ﻿OPENQASM 3;
 
+qubit[3] q;
+
 def qft3i(int arg1) {
 	x q[1];
 
@@ -13,4 +15,4 @@ def qft3i(int arg1) {
 	}
 }
 
-qft3i();
+qft3i(3);

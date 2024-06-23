@@ -4,8 +4,38 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using System.Text.RegularExpressions;
+using Qurigo.State.VectorState;
 
 namespace Qurigo.Circuit.BaseCircuit;
+
+public interface IQuantumCircuit
+{
+    void Initialize(int qubitCount);
+    void ApplyGate(GateNames gateType, IList<Parameter> parameters);
+}
+public class QuantumCircuit : IQuantumCircuit
+{
+    private IState _state;
+    private readonly IInstructionSet _instructionSet;
+
+    public QuantumCircuit(IState state, IInstructionSet instructionSet)
+    {
+        _state = state;
+        _instructionSet = instructionSet;
+    }
+    public void Initialize(int qubitCount)
+    {
+        _state.Initialize(qubitCount);
+        _instructionSet.Initialize(qubitCount);
+    }
+
+    public void ApplyGate(GateNames gateType, IList<Parameter> parameters)
+    {
+        _state.ApplyGate(_instructionSet.X(parameters[0].Index));
+    }
+}
+
+
 
 public class BaseCircuit : ICircuit
 {

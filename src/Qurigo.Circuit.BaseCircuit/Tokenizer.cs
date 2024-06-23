@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Qurigo.App;
+namespace Qurigo.Circuit.BaseCircuit;
 
 public enum TokenType
 {
@@ -75,7 +75,7 @@ public class Token
     }
 }
 
-internal class Tokenizer
+public class Tokenizer
 {
     private string[] _programLines;
     private int _currentLine;

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Qurigo.Interfaces\Qurigo.Interfaces.csproj" />
+    <ProjectReference Include="..\Qurigo.State.VectorState\Qurigo.State.VectorState.csproj" />
   </ItemGroup>
 
 </Project>

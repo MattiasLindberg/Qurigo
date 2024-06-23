@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Qurigo.App;
-internal class Parser
+namespace Qurigo.Circuit.BaseCircuit;
+
+public class Parser
 {
     public IDictionary<string, SubroutineNode> Subroutines = new Dictionary<string, SubroutineNode>();
     public IDictionary<string, string> Parameters = new Dictionary<string, string>();
@@ -35,6 +36,27 @@ internal class Parser
                     if(Subroutines.ContainsKey(token.Value))
                     {
                         SubroutineNode subroutineNode = Subroutines[token.Value];
+                        if (subroutineNode.Arguments.Count == 1)
+                        {
+                            CallSubroutineNode callSubroutineNode = new CallSubroutineNode
+                            {
+                                Arguments = new List<Argument>(),
+                                Subroutine = subroutineNode
+                            };
+                            nodes.Add(callSubroutineNode);
+
+                            // Parse arguments
+                            token = tokenizer.NextToken(TokenType.LeftParenthesis);
+                            token = tokenizer.NextToken(TokenType.Number);
+                            // TODO: Do something with the argument
+
+                            token = tokenizer.NextToken(TokenType.RightParenthesis);
+                        }
+                        else
+                        {
+                            token = tokenizer.NextToken(TokenType.LeftParenthesis);
+                            token = tokenizer.NextToken(TokenType.RightParenthesis);
+                        }
                         nodes.Add(subroutineNode);
                     }
                     else if(Parameters.ContainsKey(token.Value))
@@ -48,7 +70,7 @@ internal class Parser
                     break;
 
                 case TokenType.Subroutine:
-                    SubroutineNode subroutine = new SubroutineNode();
+                    SubroutineNode subroutine = new SubroutineNode() { Arguments = new List<Argument>() };
 
                     token = tokenizer.NextToken(TokenType.Identifier);
                     subroutine.Name = token.Value;
@@ -57,18 +79,26 @@ internal class Parser
 
                     token = tokenizer.NextToken();
                     if (token.Type == TokenType.RightParenthesis)
-                    { 
+                    {
+                        // def xyz() {
+
                         // signature is done
                     }
                     else
                     {
+                        // def xyz(int arg1) {
+
                         if (token.Type != TokenType.Identifier)
                         {
                             throw new Exception($"Expected Identifier (datatype) but was {token.Type}, {token.Value}.");
                         }
 
+                        // Current token is a datatype
+                        // Next token is parameter name
+                        string argumentType = token.Value;
+
                         token = tokenizer.NextToken(TokenType.Identifier);
-                        Parameters.Add(token.Value, token.Value);
+                        subroutine.Arguments.Add(new Argument { Name = token.Value, Type = argumentType });
 
                         token = tokenizer.NextToken(TokenType.RightParenthesis);
                     }
@@ -144,7 +174,7 @@ internal class Parser
                             token = tokenizer.NextToken(TokenType.LeftBracket);
 
                             token = tokenizer.NextToken(TokenType.Number);
-                            param1.index = int.Parse(token.Value);
+                            param1.Index = int.Parse(token.Value);
 
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
@@ -172,7 +202,7 @@ internal class Parser
                             token = tokenizer.NextToken(TokenType.LeftBracket);
 
                             token = tokenizer.NextToken(TokenType.Number);
-                            param2.index = int.Parse(token.Value);
+                            param2.Index = int.Parse(token.Value);
 
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
@@ -193,7 +223,7 @@ internal class Parser
                             token = tokenizer.NextToken(TokenType.LeftBracket);
 
                             token = tokenizer.NextToken(TokenType.Number);
-                            param2.index = int.Parse(token.Value);
+                            param2.Index = int.Parse(token.Value);
 
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
