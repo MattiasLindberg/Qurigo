@@ -31,7 +31,40 @@ public class QuantumCircuit : IQuantumCircuit
 
     public void ApplyGate(GateNames gateType, IList<Parameter> parameters)
     {
-        _state.ApplyGate(_instructionSet.X(parameters[0].Index));
+        switch (gateType)
+        {
+            case GateNames.X:
+                _state.ApplyGate(_instructionSet.X(parameters[0].Index));
+                break;
+
+            case GateNames.Y:
+                _state.ApplyGate(_instructionSet.Y(parameters[0].Index));
+                break;
+
+            case GateNames.Z:
+                _state.ApplyGate(_instructionSet.Z(parameters[0].Index));
+                break;
+
+            case GateNames.H:
+                _state.ApplyGate(_instructionSet.H(parameters[0].Index));
+                break;
+
+            case GateNames.T:
+                _state.ApplyGate(_instructionSet.T(parameters[0].Index));
+                break;
+
+            case GateNames.SWAP:
+                _state.ApplyGate(_instructionSet.SWAP(parameters[0].Index, parameters[1].Index));
+                break;
+
+            case GateNames.CNOT:
+                _state.ApplyGate(_instructionSet.CNOT(parameters[0].Index, parameters[1].Index));
+                break;
+
+            case GateNames.CRk:
+                _state.ApplyGate(_instructionSet.CRk(parameters[0].Index, parameters[1].Index, parameters[2].Index));
+                break;
+        }
     }
 }
 

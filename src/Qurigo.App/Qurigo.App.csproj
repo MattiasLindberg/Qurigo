@@ -31,6 +31,9 @@
     <None Update="Programs\mini1.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Programs\mini3.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Programs\mini2.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

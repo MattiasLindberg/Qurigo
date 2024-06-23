@@ -47,7 +47,7 @@ internal class QurigoApp
 
     public void Run()
     {
-        string program = File.ReadAllText("Programs/mini2.qasm");
+        string program = File.ReadAllText("Programs/mini3.qasm");
 
         Parser parser = new Parser();
         parser.Parse(new Tokenizer(program));
