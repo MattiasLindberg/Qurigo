@@ -58,6 +58,6 @@ def c_amod15(int argument) {
 }
 
 x q[0];
-x q[2];
+x q[1];
 
-c_amod15(2);
+c_amod15(4);

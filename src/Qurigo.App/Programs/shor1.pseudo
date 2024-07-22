@@ -1,0 +1,77 @@
+﻿// Pseudo-code for Shor's Algorithm
+function ShorAlgorithm(N):
+    if N is even:
+        return 2
+    
+    // Step 1: Choose a random integer a such that 1 < a < N
+    a = random integer between 2 and N-1
+
+    // Step 2: Compute gcd(a, N)
+    gcd = GCD(a, N)
+    if gcd != 1:
+        return gcd  // We found a non-trivial factor
+
+    // START OF QUANTUM PART
+
+    // Step 3: Find the order r of a modulo N
+    // Initialize quantum registers
+    // - One for superposition of states |x> where x = 0, 1, ..., 2^n-1
+    // - One for the modular exponentiation result
+    n = 4 // number of bits required to represent N
+    qreg1 = QuantumRegister(2 * n)
+    qreg2 = QuantumRegister(n)
+    creg = ClassicalRegister(2 * n)
+    qc = QuantumCircuit(qreg1, qreg2, creg)
+
+    // Apply Hadamard gate to qreg1 to create superposition
+    qc.h(qreg1)
+
+    // Apply modular exponentiation to qreg2 with base a and exponent qreg1
+    qc.modular_exponentiation(a, qreg1, qreg2, N)
+
+    // Apply Quantum Fourier Transform to qreg1
+    qc.qft(qreg1)
+
+    // Measure qreg1
+    qc.measure(qreg1, creg)
+
+    // Simulate or run the quantum circuit
+    result = execute(qc).result()
+    measured_value = result.get_measurement(creg)
+
+    // END OF QUANTUM PART
+
+    // Step 4: Classical post-processing to find r
+    r = find_period(measured_value, N)
+    if r is odd or a^r ≡ 1 (mod N):
+        return ShorAlgorithm(N)  // Retry if r is not suitable
+
+    // Step 5: Compute the possible factors
+    factor1 = GCD(a^(r/2) - 1, N)
+    factor2 = GCD(a^(r/2) + 1, N)
+
+    if factor1 == 1 or factor1 == N:
+        return ShorAlgorithm(N)  // Retry if we did not find non-trivial factors
+    if factor2 == 1 or factor2 == N:
+        return ShorAlgorithm(N)  // Retry if we did not find non-trivial factors
+
+    return factor1, factor2
+
+// Helper function: Classical GCD computation
+function GCD(x, y):
+    while y != 0:
+        x, y = y, x % y
+    return x
+
+// Helper function: Find the period r given the measurement result
+function find_period(measured_value, N):
+    // Implement classical post-processing to find the period r
+    // This involves continued fractions and convergents
+    // (Detailed steps omitted for brevity)
+    return r
+
+// Helper function: Modular exponentiation
+function modular_exponentiation(a, x, N):
+    // Implement modular exponentiation
+    // (Detailed steps omitted for brevity)
+    return result

@@ -31,6 +31,12 @@
     <None Update="Programs\mini1.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Programs\qft_3-inverse-function.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\shor1.pseudo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Programs\mini4.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -52,7 +58,7 @@
     <None Update="Programs\qft_2.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Programs\qft_3-inverse.qasm">
+    <None Update="Programs\qft_4-inverse.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Programs\qft_3.qasm">
