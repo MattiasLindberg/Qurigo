@@ -31,6 +31,12 @@
     <None Update="Programs\mini1.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Programs\phase_estimate_4-unwrapped.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\phase_estimate_4.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Programs\qft_3-inverse-function.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

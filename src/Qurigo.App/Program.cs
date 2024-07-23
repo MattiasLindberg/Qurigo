@@ -14,10 +14,11 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        FactorInteger.Factor(15);
+        //FactorInteger.Factor(15);
+        FactorIntegerQiskit.Factor(15);
 
         //var serviceCollection = new ServiceCollection();
-        
+
         //serviceCollection.AddSingleton<IState, VectorState>();
         //serviceCollection.AddSingleton<IInstructionSet, HTCNOTXYZ>();
         ////serviceCollection.AddSingleton<IInstructionSet, IBMEagleR3>();

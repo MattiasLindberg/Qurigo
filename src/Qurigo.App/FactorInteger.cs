@@ -62,11 +62,11 @@ internal class FactorInteger
 
         int r = FindPeriod(measured_value, N, a);
 
-        if (r % 2 != 0 || BigInteger.ModPow(a, r, N) == 1)
-        {
-            Factor(N);
-            return;
-        }
+        //if (r % 2 != 0 || BigInteger.ModPow(a, r, N) == 1)
+        //{
+        //    Factor(N);
+        //    return;
+        //}
 
         int factor1 = GCD((int)Math.Pow(a, r / 2) - 1, N);
         int factor2 = GCD((int)Math.Pow(a, r / 2) + 1, N);
