@@ -1,6 +1,7 @@
 ﻿using Numpy;
 using Numpy.Models;
 using Qurigo.Interfaces;
+using System;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Security.Principal;
@@ -174,6 +175,207 @@ public class HTCNOTXYZ : IInstructionSet
         return new Gate(res);
     }
 
+    public IGate CSWAP(int controlQubit, int actOnQubit1, int actOnQubit2)
+    {
+        NDarray swapQiAndQiplus1 = np.array(new double[,]
+        {
+            { 1, 0, 0, 0 },
+            { 0, 0, 1, 0 },
+            { 0, 1, 0, 0 },
+            { 0, 0, 0, 1 }
+        });
+
+        int newControl = _qubitCount - controlQubit - 1;
+        int newActOn = _qubitCount - actOnQubit1 - 1 - 1; // 2nd "-1" is due to applying a 2-qubit swap
+
+         NDarray zeroOperator = np.array(new double[,] {
+            { 1, 0 },
+            { 0, 0 }
+        });
+        NDarray oneOperator = np.array(new double[,] {
+            { 0, 0 },
+            { 0, 1 }
+        });
+
+        NDarray matrixZeroPart = _identity;
+        int zeroCount = 1;
+
+        while (zeroCount < newControl)
+        {
+            matrixZeroPart = np.kron(matrixZeroPart, _identity);
+            zeroCount++;
+        }
+
+        if (newControl == 0)
+        {
+            // |0><0|
+            matrixZeroPart = zeroOperator;
+            zeroCount = 1;
+        }
+        else
+        {
+            matrixZeroPart = np.kron(matrixZeroPart, zeroOperator);
+            zeroCount++;
+        }
+
+        while (zeroCount < _qubitCount)
+        {
+            matrixZeroPart = np.kron(matrixZeroPart, _identity);
+            zeroCount++;
+        }
+
+        NDarray matrixOnePart = _identity;
+        int oneCount = 1;
+
+        while (oneCount < newActOn)
+        {
+            matrixOnePart = np.kron(matrixOnePart, _identity);
+            oneCount++;
+        }
+
+        if (newActOn == 0)
+        {
+            // |1><1|
+            matrixOnePart = swapQiAndQiplus1;
+            oneCount = 2;
+        }
+        else
+        {
+            matrixOnePart = np.kron(matrixOnePart, swapQiAndQiplus1);
+            oneCount++;
+            oneCount++;
+        }
+
+        while (oneCount < newControl)
+        {
+            matrixOnePart = np.kron(matrixOnePart, _identity);
+            oneCount++;
+        }
+
+        matrixOnePart = np.kron(matrixOnePart, oneOperator);
+        oneCount++;
+
+        while (oneCount < _qubitCount)
+        {
+            matrixOnePart = np.kron(matrixOnePart, _identity);
+            oneCount++;
+        }
+
+        NDarray result = matrixZeroPart + matrixOnePart;
+
+        return new Gate(result);
+
+
+
+
+
+        //NDarray zeroOperator = np.array(new double[,] {
+        //    { 1, 0 },
+        //    { 0, 0 }
+        //});
+        //NDarray oneOperator = np.array(new double[,] {
+        //    { 0, 0 },
+        //    { 0, 1 }
+        //});
+
+        //NDarray matrixZeroPart = _identity;
+        //int zeroCount = 1;
+
+        //while (zeroCount < newControl)
+        //{
+        //    matrixZeroPart = np.kron(matrixZeroPart, _identity);
+        //    zeroCount++;
+        //}
+
+        //if (newControl == 0)
+        //{
+        //    // |0><0|
+        //    matrixZeroPart = zeroOperator;
+        //    zeroCount = 1;
+        //}
+        //else
+        //{
+        //    matrixZeroPart = np.kron(matrixZeroPart, zeroOperator);
+        //    zeroCount++;
+        //}
+
+        //while (zeroCount < _qubitCount)
+        //{
+        //    matrixZeroPart = np.kron(matrixZeroPart, _identity);
+        //    zeroCount++;
+        //}
+
+
+        //NDarray matrixOnePart = _identity;
+        //int oneCount = 1;
+
+
+        //while (oneCount < newControl)
+        //{
+        //    matrixOnePart = np.kron(matrixOnePart, _identity);
+        //    oneCount++;
+        //}
+
+        //if (newControl == 0)
+        //{
+        //    // |1><1|
+        //    matrixOnePart = oneOperator;
+        //    oneCount = 1;
+        //}
+        //else
+        //{
+        //    matrixOnePart = np.kron(matrixOnePart, oneOperator);
+        //    oneCount++;
+        //}
+
+        //while (oneCount < newActOn)
+        //{
+        //    matrixOnePart = np.kron(matrixOnePart, _identity);
+        //    oneCount++;
+        //}
+
+        //matrixOnePart = np.kron(matrixOnePart, swapQiAndQiplus1);
+        //oneCount++;
+        //oneCount++;
+
+        //while (oneCount < _qubitCount)
+        //{
+        //    matrixOnePart = np.kron(matrixOnePart, _identity);
+        //    oneCount++;
+        //}
+
+        //for (int i = 0; i < size; i++)
+        //{
+        //    for (int j = 0; j < size; j++)
+        //    {
+        //        Console.Write(matrixOnePart[i, j] + "   ");
+        //    }
+        //    Console.WriteLine();
+        //}
+
+        // NDarray result = matrixZeroPart + matrixOnePart;
+
+        //    return new Gate(result);
+    }
+
+    private int Swap(int number, int pos1, int pos2)
+    {
+        int bit1 = (number >> pos1) & 1;
+        int bit3 = (number >> pos2) & 1;
+
+        // Check if bits are different
+        if (bit1 != bit3)
+        {
+            // Create a bit mask with bits at position pos1 and pos2 set to 1
+            int mask = (1 << pos1) | (1 << pos2);
+
+            // Toggle bits at positions pos1 and pos2
+            number ^= mask;
+        }
+
+        return number;
+    }
+
     public IGate S(int actOnQubit)
     {
         NDarray zGate = np.array(new Complex[,]
@@ -192,9 +394,7 @@ public class HTCNOTXYZ : IInstructionSet
         NDarray rkGate = np.array(new Complex[,]
         {
             { 1, 0 },
-            { 0, Complex.Exp(
-                new Complex(0,1) * 2 * Math.PI / Math.Pow(2, k)
-                ) }
+            { 0, Complex.Exp(new Complex(0,1) * 2 * Math.PI / Math.Pow(2, k)) }
         });
 
         NDarray matrix = GenericControlledLittleEndian(rkGate, controlQubit, actOnQubit);
@@ -253,13 +453,21 @@ public class HTCNOTXYZ : IInstructionSet
         throw new NotImplementedException();
     }
 
-
     public NDarray GenericControlledLittleEndian(NDarray gateMatrix, int controlQubit, int actOnQubit)
     {
         int newControl = _qubitCount - controlQubit - 1;
         int newActOn = _qubitCount - actOnQubit - 1;
 
         return GenericControlledBigEndian(gateMatrix, newControl, newActOn);
+    }
+
+    public NDarray GenericControlledLittleEndian(NDarray gateMatrix, int controlQubit, int actOnQubit1, int actOnQubit2)
+    {
+        int newControl = _qubitCount - controlQubit - 1;
+        int newActOn1 = _qubitCount - actOnQubit1 - 1;
+        int newActOn2 = _qubitCount - actOnQubit2 - 1;
+
+        return GenericControlledBigEndian(gateMatrix, newControl, newActOn1, actOnQubit2);
     }
 
     public NDarray GenericGateLittleEndian(NDarray gateMatrix, int actOnQubit)
@@ -296,6 +504,12 @@ public class HTCNOTXYZ : IInstructionSet
         {
             return ImplGenericControlledGateBigEndian_ActBeforeControl(gateMatrix, controlQubit, actOnQubit);
         }
+    }
+
+    public NDarray GenericControlledBigEndian(NDarray gateMatrix, int controlQubit, int actOnQubit1, int actOnQubit2)
+    {
+        // Control qubits will always be before the act on qubits in Shor's algorithm, so keeping it simple.
+        return null; // ImplGenericControlledGateBigEndian_ControlBeforeAct(gateMatrix, controlQubit, actOnQubit1, actOnQubit2);
     }
 
     private NDarray ImplGenericControlledGateBigEndian_ControlBeforeAct(NDarray gateMatrix, int controlQubit, int actOnQubit)

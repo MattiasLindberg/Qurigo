@@ -124,6 +124,17 @@ public class QubitNode : IExecutionNode
     }
 }
 
+public class ControlGateNode : IExecutionNode
+{
+    public CallSubroutineNode Subroutine;
+    public IList<Parameter> Parameters;
+
+    public void Execute(IExecutionContext context)
+    {
+//        context.QuantumCircuit.ApplyGate(GateType, Parameters);
+    }
+}
+
 public class GateNode : IExecutionNode
 {
     public GateNames GateType;
@@ -152,15 +163,12 @@ public class IfNode : IExecutionNode
 
         if (context.FunctionParameters != null)
         {
-            foreach (var parameter in context.FunctionParameters)
-            {
-                globals.Add(parameter.Name, parameter.Value);
-            }
+            globals.Add("arg1", 8);
         }
 
         // Get condition for the if statement and evaluate it.
         string expression = Condition.Variable + Condition.Operator + Condition.Value;
-        string declarions = GenerateVariablesCode(context);
+        string declarions = GenerateVariablesCode(context, globals);
         string script = GenerateScript(expression, declarions);
         bool conditionResult = CSharpScript.EvaluateAsync<bool>(script).Result;
 
@@ -195,12 +203,17 @@ public class IfNode : IExecutionNode
         ";
     }
 
-    private string GenerateVariablesCode(IExecutionContext context)
+    private string GenerateVariablesCode(IExecutionContext context, Dictionary<string, object> globals)
     {
         string declarations = "";
         foreach (var parameter in context.FunctionParameters)
         {
             declarations += $"var {parameter.Name} = (int){parameter.Value}; \n";
+        }
+
+        foreach (var global in globals)
+        {
+            declarations += $"var {global.Key} = (int){global.Value}; \n";
         }
 
         return declarations;

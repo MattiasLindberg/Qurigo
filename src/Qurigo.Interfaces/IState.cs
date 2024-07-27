@@ -11,4 +11,5 @@ public interface IState
     NDarray State { get; }
     string ToString();
     Complex[] ToArray();
+    double Measure();
 }

@@ -18,5 +18,6 @@ public enum GateNames
     Toffoli = 4096,
     SX = 8192,
     ECR = 16384,
-    CRK = 32768
+    CRK = 32768,
+    CSWAP = 65536,
 }

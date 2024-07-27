@@ -14,19 +14,18 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        //FactorInteger.Factor(15);
-        FactorIntegerQiskit.Factor(15);
+        var serviceCollection = new ServiceCollection();
 
-        //var serviceCollection = new ServiceCollection();
+        serviceCollection.AddSingleton<IState, VectorState>();
+        serviceCollection.AddSingleton<IInstructionSet, HTCNOTXYZ>();
+        //serviceCollection.AddSingleton<IInstructionSet, IBMEagleR3>();
+        serviceCollection.AddSingleton<ICircuit, BaseCircuit>();
+        serviceCollection.AddSingleton<IQuantumCircuit, QuantumCircuit>();
+        serviceCollection.AddSingleton<IExecutionContext, Circuit.BaseCircuit.ExecutionContext>();
 
-        //serviceCollection.AddSingleton<IState, VectorState>();
-        //serviceCollection.AddSingleton<IInstructionSet, HTCNOTXYZ>();
-        ////serviceCollection.AddSingleton<IInstructionSet, IBMEagleR3>();
-        //serviceCollection.AddSingleton<ICircuit, BaseCircuit>();
-        //serviceCollection.AddSingleton<IQuantumCircuit, QuantumCircuit>();
-        //serviceCollection.AddSingleton<IExecutionContext, Circuit.BaseCircuit.ExecutionContext>();
+        var serviceProvider = serviceCollection.BuildServiceProvider();
 
-        //var serviceProvider = serviceCollection.BuildServiceProvider();
+        FactorIntegerQiskit.Factor(15, serviceProvider);
 
         //QurigoApp app = new QurigoApp(serviceProvider.GetService<ICircuit>(), serviceProvider.GetService<IQuantumCircuit>(), serviceProvider.GetService<IExecutionContext>());
         //app.Run("Programs/qft_3-inverse-function.qasm");
@@ -54,7 +53,7 @@ internal class QurigoApp
         _executionContext = executionContext;
     }
 
-    public void Run(string filepath)
+    public double Run(string filepath)
     {
         string program = File.ReadAllText(filepath);
 
@@ -67,6 +66,19 @@ internal class QurigoApp
         }
 
         Console.WriteLine(_circuit.GetState().ToString());
+
+        double measurement = _circuit.GetState().Measure();
+        Console.WriteLine($"measurement= {measurement}");
+
+        int measurementInt = (int)measurement;
+        Console.WriteLine($"measurementInt= {measurementInt}");
+
+        int measurementInt2 = (int)measurementInt & 0b111111;
+        Console.WriteLine($"measurementInt2= {measurementInt2}");
+
+        double returnValue = measurementInt2 / 64.0;
+
+        return returnValue;
     }
 }
 

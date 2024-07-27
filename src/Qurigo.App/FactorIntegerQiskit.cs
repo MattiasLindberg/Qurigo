@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Qurigo.Circuit.BaseCircuit;
+using Qurigo.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -9,8 +12,15 @@ using System.Threading.Tasks;
 namespace Qurigo.App;
 internal class FactorIntegerQiskit
 {
-    public static void Factor(int N)
+    private static int Attempt = 0;
+
+    public static void Factor(int N, IServiceProvider serviceProvider)
     {
+        Console.WriteLine($"");
+
+        Attempt++;
+        Console.WriteLine($"Attempt= {Attempt}");
+
         if (N % 2 == 0)
         {
             Console.WriteLine(2);
@@ -21,22 +31,33 @@ internal class FactorIntegerQiskit
 
         //// START OF QUANTUM PART
 
+        double measurement = 0;
+        for (int i=0; i < 1; i++)
+        {
+            QurigoApp app = new QurigoApp(serviceProvider.GetService<ICircuit>()!, serviceProvider.GetService<IQuantumCircuit>()!, serviceProvider.GetService<IExecutionContext>()!);
+            // measurement = app.Run("Programs/phase_estimate_atomicswaps_7controls.qasm");
+            // measurement = app.Run("Programs/phase_estimate_atomicswaps.qasm");
+            // measurement = app.Run("Programs/phase_estimate_atomicswaps_4.qasm");
+            // measurement = app.Run("Programs/phase_estimate_atomicswaps_5.qasm");
+            measurement = app.Run("Programs/phase_estimate_atomicswaps_6.qasm");
+        }
+
         //// END OF QUANTUM PART
 
         // Simulate a response from QC
-        double phase = 0.75;
-        
+        double phase = measurement;
+        Console.WriteLine($"Measured phase: {phase}");
 
-        if(phase == 0 || phase == 1)
+        if (phase == 0 || phase == 1)
         {
             // Try again
             Console.WriteLine($"Phase was 0 or 1, try again.");
-            Factor(N);
+            Factor(N, serviceProvider);
             return;
         }
         
-        Console.WriteLine($"Measured phase: {phase}");
-        Fraction frac = Fraction.LimitDenominator(phase, 16);
+        // It should be enough with 8 here. It should be 2^#qubits
+        Fraction frac = Fraction.LimitDenominator(phase, 64);
         Console.WriteLine($"frac: {frac}");
         int r = frac.Denominator;
         Console.WriteLine($"r: {r}");
@@ -48,19 +69,21 @@ internal class FactorIntegerQiskit
         {
             // Try again
             Console.WriteLine($"Trivial factor, try again.");
-            Factor(N);
+            Factor(N, serviceProvider);
             return;
         }
 
         if(N % factor == 0)
         {
+            Console.WriteLine($"Attempt= {Attempt}");
+
             Console.WriteLine($"Non-trivial factor found: {factor}");
             return;
         }
 
         // Try again
         Console.WriteLine($"Not an real factor, try again.");
-        Factor(N);
+        Factor(N, serviceProvider);
     }
 
     private static int GCD(int x, int y)

@@ -24,6 +24,7 @@ public enum TokenType
     Qubit,
     Bit,
     Gate,
+    ControlGate,
     Measure,
     Reset,
     Number,
@@ -41,6 +42,7 @@ public enum TokenType
     RightBrace,
     SemiColon,
     Period,
+    At,
 
     EndOfLine,
     EndOfFile,
@@ -58,20 +60,20 @@ public class Token
     {
         Type = type;
         Value = value;
-        Console.WriteLine(Type + " : " + Value);
+        // Console.WriteLine(Type + " : " + Value);
     }
 
     public Token(TokenType type, GateNames gateType)
     {
         Type = type;
         GateType = gateType;
-        Console.WriteLine(Type + " : " + GateType);
+        // Console.WriteLine(Type + " : " + GateType);
     }
 
     public Token(TokenType type)
     {
         Type = type;
-        Console.WriteLine(Type);
+        // Console.WriteLine(Type);
     }
 }
 
@@ -188,6 +190,19 @@ public class Tokenizer
                 _currentLine++;
                 _linePosition = 0;
                 return new Token(TokenType.Comment);
+            }
+
+            if (line[_linePosition] == '@')
+            {
+                if (token.Length > 0)
+                {
+                    return GetTokenFromString(token);
+                }
+                else
+                {
+                    _linePosition++;
+                    return new Token(TokenType.At);
+                }
             }
 
             if (line[_linePosition] == ';')
@@ -321,6 +336,7 @@ public class Tokenizer
     {
         Token? t = token switch
         {
+            "ctrl" => new Token(TokenType.ControlGate),
             "def" => new Token(TokenType.Subroutine),
             "if" => new Token(TokenType.If),
             "else" => new Token(TokenType.Else),

@@ -154,6 +154,11 @@ public class IBMEagleR3 : IInstructionSet
         return new Gate(res);
     }
 
+    public IGate CSWAP(int controlQubit, int actOnQubit1, int actOnQubit2)
+    {
+        throw new NotImplementedException();
+    }
+
     public IGate SX(int actOnQubit)
     {
         NDarray sxGate = np.array(new Complex[,]
