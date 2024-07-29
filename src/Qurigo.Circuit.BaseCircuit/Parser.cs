@@ -9,7 +9,7 @@ namespace Qurigo.Circuit.BaseCircuit;
 public class Parser
 {
     public IDictionary<string, SubroutineNode> Subroutines = new Dictionary<string, SubroutineNode>();
-    public IDictionary<string, string> Parameters = new Dictionary<string, string>();
+    public IDictionary<string, string> Variables = new Dictionary<string, string>();
     public IList<IExecutionNode> Nodes = new List<IExecutionNode>();
 
     public void Parse(Tokenizer tokenizer)
@@ -38,7 +38,7 @@ public class Parser
                         SubroutineNode subroutineNode = Subroutines[token.Value];
                         CallSubroutineNode callSubroutineNode = new CallSubroutineNode
                         {
-                            FunctionParameters = new List<FunctionParameter>(),
+                            FunctionParameters = new Dictionary<string, FunctionParameter>(),
                             Subroutine = subroutineNode
                         };
                         nodes.Add(callSubroutineNode);
@@ -49,10 +49,9 @@ public class Parser
                             // Parse argument
                             token = tokenizer.NextToken(TokenType.LeftParenthesis);
                             token = tokenizer.NextToken();
-
                             if(token.Type == TokenType.Number)
                             {
-                                callSubroutineNode.FunctionParameters.Add(new FunctionParameter { Name = subroutineNode.Arguments[0].Name, Value = int.Parse(token.Value) });
+                                callSubroutineNode.FunctionParameters.Add(subroutineNode.Arguments[0].Name, new FunctionParameter { Name = subroutineNode.Arguments[0].Name, Value = int.Parse(token.Value) });
                                 token = tokenizer.NextToken(TokenType.RightParenthesis);
                             }
                             else if(token.Type == TokenType.Identifier)
@@ -61,7 +60,7 @@ public class Parser
 
                                 token = tokenizer.NextToken();
                                 // HARD CODED: GET A  PROPER VALUE!
-                                callSubroutineNode.FunctionParameters.Add(new FunctionParameter { Name = subroutineNode.Arguments[0].Name, Value = 1 });
+                                callSubroutineNode.FunctionParameters.Add(subroutineNode.Arguments[0].Name, new FunctionParameter { Name = subroutineNode.Arguments[0].Name, Value = 1 });
 
                                 token = tokenizer.NextToken(TokenType.RightBracket);
                                 token = tokenizer.NextToken(TokenType.RightParenthesis);
@@ -72,15 +71,113 @@ public class Parser
                             }
 
                         }
+                        else if (subroutineNode.Arguments.Count == 2)
+                        {
+                            // TODO TODO TODO TODO TODO
+
+                            // Parse argument
+                            token = tokenizer.NextToken(TokenType.LeftParenthesis);
+                            token = tokenizer.NextToken();
+                            if (token.Type == TokenType.Number)
+                            {
+                                callSubroutineNode.FunctionParameters.Add(subroutineNode.Arguments[0].Name, new FunctionParameter { Name = subroutineNode.Arguments[0].Name, Value = int.Parse(token.Value) });
+                            }
+                            else if (token.Type == TokenType.Identifier)
+                            {
+                                token = tokenizer.NextToken(TokenType.LeftBracket);
+
+                                token = tokenizer.NextToken();
+                                // HARD CODED: GET A  PROPER VALUE!
+                                callSubroutineNode.FunctionParameters.Add(subroutineNode.Arguments[0].Name, new FunctionParameter { Name = subroutineNode.Arguments[0].Name, Value = 1 });
+
+                                token = tokenizer.NextToken(TokenType.RightBracket);
+                            }
+                            else
+                            {
+                                throw new Exception($"Expected number or identifier but was {token.Type}, {token.Value}.");
+                            }
+
+                            token = tokenizer.NextToken(TokenType.Comma);
+
+                            token = tokenizer.NextToken();
+                            if (token.Type == TokenType.Number)
+                            {
+                                callSubroutineNode.FunctionParameters.Add(subroutineNode.Arguments[1].Name, new FunctionParameter { Name = subroutineNode.Arguments[1].Name, Value = int.Parse(token.Value) });
+                                token = tokenizer.NextToken(TokenType.RightParenthesis);
+                            }
+                            else if (token.Type == TokenType.Identifier)
+                            {
+                                token = tokenizer.NextToken(TokenType.LeftBracket);
+
+                                token = tokenizer.NextToken();
+                                // HARD CODED: GET A  PROPER VALUE!
+                                callSubroutineNode.FunctionParameters.Add(subroutineNode.Arguments[1].Name, new FunctionParameter { Name = subroutineNode.Arguments[1].Name, Value = 1 });
+
+                                token = tokenizer.NextToken(TokenType.RightBracket);
+                                token = tokenizer.NextToken(TokenType.RightParenthesis);
+                            }
+                            else
+                            {
+                                throw new Exception($"Expected number or identifier but was {token.Type}, {token.Value}.");
+                            }
+                        }
                         else
                         {
                             token = tokenizer.NextToken(TokenType.LeftParenthesis);
                             token = tokenizer.NextToken(TokenType.RightParenthesis);
                         }
                     }
-                    else if(Parameters.ContainsKey(token.Value))
+                    else if(Variables.ContainsKey(token.Value))
                     {
-                        // Noop
+                        string variableName = token.Value;
+                        token = tokenizer.NextToken(TokenType.Assignment);
+
+                        token = tokenizer.NextToken();
+                        if(token.Type == TokenType.Identifier)
+                        {
+                            // Variable assignment
+                            string term1 = token.Value;
+                            token = tokenizer.NextToken(TokenType.Operator);
+                            string op = token.Value;
+                            token = tokenizer.NextToken(TokenType.Number);
+                            string term2 = token.Value;
+
+                            nodes.Add(new VariableNode() { VariableName = variableName, Expression =  term1 + op + term2});
+                        }
+                        else if(token.Type == TokenType.Number)
+                        {
+                            // Number assignment
+                            Variables[token.Value] = token.Value;
+                        }
+                        else
+                        {
+                            throw new Exception($"Expected identifier or number but was {token.Type}, {token.Value}.");
+                        }
+                        token = tokenizer.NextToken(TokenType.SemiColon);
+                    }
+                    else if (token.Value == "int")
+                    {
+                        // Variable declaration
+                        token = tokenizer.NextToken(TokenType.Identifier);
+                        string name = token.Value;
+
+                        token = tokenizer.NextToken();
+                        if(token.Type == TokenType.Assignment)
+                        {
+                            token = tokenizer.NextToken(TokenType.Number);
+                            Variables.Add(name, token.Value);
+                            nodes.Add(new VariableNode() { VariableName = name, Expression = token.Value });
+                            token = tokenizer.NextToken(TokenType.SemiColon);
+                        }
+                        else if(token.Type == TokenType.SemiColon)
+                        {
+                            Variables.Add(name, "0");
+                            nodes.Add(new VariableNode() { VariableName = name, Expression = "0" });
+                        }
+                        else
+                        {
+                            throw new Exception($"Expected assignment or semicolon but was {token.Type}, {token.Value}.");
+                        }
                     }
                     else
                     {
@@ -106,20 +203,26 @@ public class Parser
                     else
                     {
                         // def xyz(int arg1) {
-
-                        if (token.Type != TokenType.Identifier)
+                        while(token.Type != TokenType.RightParenthesis)
                         {
-                            throw new Exception($"Expected Identifier (datatype) but was {token.Type}, {token.Value}.");
+                            if (token.Type != TokenType.Identifier)
+                            {
+                                throw new Exception($"Expected Identifier (datatype) but was {token.Type}, {token.Value}.");
+                            }
+
+                            // Current token is a datatype
+                            // Next token is parameter name
+                            string argumentType = token.Value;
+
+                            token = tokenizer.NextToken(TokenType.Identifier);
+                            subroutine.Arguments.Add(new Argument { Name = token.Value, Type = argumentType });
+
+                            token = tokenizer.NextToken();
+                            if(token.Type == TokenType.Comma)
+                            {
+                                token = tokenizer.NextToken(TokenType.Identifier);
+                            }
                         }
-
-                        // Current token is a datatype
-                        // Next token is parameter name
-                        string argumentType = token.Value;
-
-                        token = tokenizer.NextToken(TokenType.Identifier);
-                        subroutine.Arguments.Add(new Argument { Name = token.Value, Type = argumentType });
-
-                        token = tokenizer.NextToken(TokenType.RightParenthesis);
                     }
 
                     token = tokenizer.NextToken(TokenType.LeftBrace);
@@ -176,7 +279,7 @@ public class Parser
                         SubroutineNode subroutineNode = Subroutines[token.Value];
                         CallSubroutineNode callSubroutineNode = new CallSubroutineNode
                         {
-                            FunctionParameters = new List<FunctionParameter>(),
+                            FunctionParameters = new Dictionary<string, FunctionParameter>(),
                             Subroutine = subroutineNode
                         };
                         controlGateNode.Subroutine = callSubroutineNode;
@@ -253,11 +356,12 @@ public class Parser
 
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
-                            token = tokenizer.NextToken();
-                            if (token.Value != ",")
-                            {
-                                throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
-                            }
+                            token = tokenizer.NextToken(TokenType.Comma);
+                            //token = tokenizer.NextToken();
+                            //if (token.Value != ",")
+                            //{
+                            //    throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
+                            //}
 
                             token = tokenizer.NextToken(TokenType.Identifier);
                             param2 = new Parameter
@@ -277,7 +381,7 @@ public class Parser
                             token = tokenizer.NextToken(TokenType.SemiColon);
                             break;
 
-                        // Two qubit gates
+                        // Three qubit gates
                         case Interfaces.GateNames.CSWAP:
                             var gateThreeQubits = new GateNode
                             {
@@ -296,15 +400,27 @@ public class Parser
                             gateThreeQubits.Parameters.Add(param4);
 
                             token = tokenizer.NextToken(TokenType.LeftBracket);
-                            token = tokenizer.NextToken(TokenType.Number);
-                            param4.Index = int.Parse(token.Value);
+                            token = tokenizer.NextToken();
+                            if(token.Type == TokenType.Number)
+                            {
+                                param4.Index = int.Parse(token.Value);
+                            }
+                            else if(token.Type == TokenType.Identifier)
+                            {
+                                param4.ValueReference = token.Value;
+                            }
+                            else
+                            {
+                                throw new Exception($"Expected number or identifier but was {token.Type}, {token.Value}.");
+                            }
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
-                            token = tokenizer.NextToken();
-                            if (token.Value != ",")
-                            {
-                                throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
-                            }
+                            token = tokenizer.NextToken(TokenType.Comma);
+                            //token = tokenizer.NextToken();
+                            //if (token.Value != ",")
+                            //{
+                            //    throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
+                            //}
 
                             // Qubit reference 2
                             token = tokenizer.NextToken(TokenType.Identifier);
@@ -320,11 +436,12 @@ public class Parser
                             param4.Index = int.Parse(token.Value);
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
-                            token = tokenizer.NextToken();
-                            if (token.Value != ",")
-                            {
-                                throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
-                            }
+                            token = tokenizer.NextToken(TokenType.Comma);
+                            //token = tokenizer.NextToken();
+                            //if (token.Value != ",")
+                            //{
+                            //    throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
+                            //}
 
                             // Qubit reference 3
                             token = tokenizer.NextToken(TokenType.Identifier);
@@ -367,11 +484,12 @@ public class Parser
 
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
-                            token = tokenizer.NextToken();
-                            if (token.Value != ",")
-                            {
-                                throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
-                            }
+                            token = tokenizer.NextToken(TokenType.Comma);
+                            //token = tokenizer.NextToken();
+                            //if (token.Value != ",")
+                            //{
+                            //    throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
+                            //}
 
                             token = tokenizer.NextToken(TokenType.Identifier);
                             param3 = new Parameter
@@ -388,11 +506,12 @@ public class Parser
 
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
-                            token = tokenizer.NextToken();
-                            if (token.Value != ",")
-                            {
-                                throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
-                            }
+                            token = tokenizer.NextToken(TokenType.Comma);
+                            //token = tokenizer.NextToken();
+                            //if (token.Value != ",")
+                            //{
+                            //    throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
+                            //}
 
                             token = tokenizer.NextToken(TokenType.Number);
                             param3 = new Parameter
@@ -450,8 +569,19 @@ public class Parser
                     token = tokenizer.NextToken(TokenType.Operator);
                     whileNode.Condition.Operator = token.Value;
 
-                    token = tokenizer.NextToken(TokenType.Number);
-                    whileNode.Condition.Value = token.Value;
+                    token = tokenizer.NextToken();
+                    if(token.Type == TokenType.Identifier)
+                    {
+                        whileNode.Condition.ValueReference = token.Value;
+                    }
+                    else if(token.Type == TokenType.Number)
+                    {
+                        whileNode.Condition.Value = token.Value;
+                    }
+                    else
+                    {
+                        throw new Exception($"Expected identifier or number but was {token.Type}, {token.Value}.");
+                    }
 
                     token = tokenizer.NextToken(TokenType.RightParenthesis);
 

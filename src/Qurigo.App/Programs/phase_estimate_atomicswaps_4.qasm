@@ -49,57 +49,57 @@ cswap q[1], q[6], q[7];
 
 
 # control_register[2]
-cswap q[2], q[4], q[5];
-cswap q[2], q[5], q[6];
-cswap q[2], q[6], q[7];
+#cswap q[2], q[4], q[5];
+#cswap q[2], q[5], q[6];
+#cswap q[2], q[6], q[7];
 
-cswap q[2], q[4], q[5];
-cswap q[2], q[5], q[6];
-cswap q[2], q[6], q[7];
+#cswap q[2], q[4], q[5];
+#cswap q[2], q[5], q[6];
+#cswap q[2], q[6], q[7];
 
-cswap q[2], q[4], q[5];
-cswap q[2], q[5], q[6];
-cswap q[2], q[6], q[7];
+#cswap q[2], q[4], q[5];
+#cswap q[2], q[5], q[6];
+#cswap q[2], q[6], q[7];
 
-cswap q[2], q[4], q[5];
-cswap q[2], q[5], q[6];
-cswap q[2], q[6], q[7];
+#cswap q[2], q[4], q[5];
+#cswap q[2], q[5], q[6];
+#cswap q[2], q[6], q[7];
 
-# control_register[2]
-cswap q[3], q[4], q[5];
-cswap q[3], q[5], q[6];
-cswap q[3], q[6], q[7];
+# control_register[3]
+#cswap q[3], q[4], q[5];
+#cswap q[3], q[5], q[6];
+#cswap q[3], q[6], q[7];
 
-cswap q[3], q[4], q[5];
-cswap q[3], q[5], q[6];
-cswap q[3], q[6], q[7];
+#cswap q[3], q[4], q[5];
+#cswap q[3], q[5], q[6];
+#cswap q[3], q[6], q[7];
 
-cswap q[3], q[4], q[5];
-cswap q[3], q[5], q[6];
-cswap q[3], q[6], q[7];
+#cswap q[3], q[4], q[5];
+#cswap q[3], q[5], q[6];
+#cswap q[3], q[6], q[7];
 
-cswap q[3], q[4], q[5];
-cswap q[3], q[5], q[6];
-cswap q[3], q[6], q[7];
+#cswap q[3], q[4], q[5];
+#cswap q[3], q[5], q[6];
+#cswap q[3], q[6], q[7];
 
-cswap q[3], q[4], q[5];
-cswap q[3], q[5], q[6];
-cswap q[3], q[6], q[7];
+#cswap q[3], q[4], q[5];
+#cswap q[3], q[5], q[6];
+#cswap q[3], q[6], q[7];
 
-cswap q[3], q[4], q[5];
-cswap q[3], q[5], q[6];
-cswap q[3], q[6], q[7];
+#cswap q[3], q[4], q[5];
+#cswap q[3], q[5], q[6];
+#cswap q[3], q[6], q[7];
 
-cswap q[3], q[4], q[5];
-cswap q[3], q[5], q[6];
-cswap q[3], q[6], q[7];
+#cswap q[3], q[4], q[5];
+#cswap q[3], q[5], q[6];
+#cswap q[3], q[6], q[7];
 
-cswap q[3], q[4], q[5];
-cswap q[3], q[5], q[6];
-cswap q[3], q[6], q[7];
+#cswap q[3], q[4], q[5];
+#cswap q[3], q[5], q[6];
+#cswap q[3], q[6], q[7];
 
 
 # Inverse QFT
-qft4i();
+#qft4i();
 
 # Measure control registers (0, 1, 2)

@@ -42,6 +42,7 @@ public enum TokenType
     RightBrace,
     SemiColon,
     Period,
+    Comma,
     At,
 
     EndOfLine,
@@ -242,6 +243,19 @@ public class Tokenizer
                 {
                     _linePosition++;
                     return new Token(TokenType.Period);
+                }
+            }
+
+            if (line[_linePosition] == ',')
+            {
+                if (token.Length > 0)
+                {
+                    return GetTokenFromString(token);
+                }
+                else
+                {
+                    _linePosition++;
+                    return new Token(TokenType.Comma);
                 }
             }
 

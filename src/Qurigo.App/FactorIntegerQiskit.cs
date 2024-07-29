@@ -23,29 +23,23 @@ internal class FactorIntegerQiskit
 
         if (N % 2 == 0)
         {
-            Console.WriteLine(2);
+            Console.WriteLine("N is even: 2 is a factor!");
             return;
         }
 
-        int a = 8;
-
         //// START OF QUANTUM PART
 
-        double measurement = 0;
-        for (int i=0; i < 1; i++)
-        {
-            QurigoApp app = new QurigoApp(serviceProvider.GetService<ICircuit>()!, serviceProvider.GetService<IQuantumCircuit>()!, serviceProvider.GetService<IExecutionContext>()!);
-            // measurement = app.Run("Programs/phase_estimate_atomicswaps_7controls.qasm");
-            // measurement = app.Run("Programs/phase_estimate_atomicswaps.qasm");
-            // measurement = app.Run("Programs/phase_estimate_atomicswaps_4.qasm");
-            // measurement = app.Run("Programs/phase_estimate_atomicswaps_5.qasm");
-            measurement = app.Run("Programs/phase_estimate_atomicswaps_6.qasm");
-        }
+        QurigoApp app = new QurigoApp(serviceProvider.GetService<ICircuit>()!, serviceProvider.GetService<IQuantumCircuit>()!, serviceProvider.GetService<IExecutionContext>()!);
+        // double phase = app.Run("Programs/phase_estimate_atomicswaps_7controls.qasm");
+        // double phase = app.Run("Programs/phase_estimate_atomicswaps.qasm");
+        // double phase = app.Run("Programs/phase_estimate_atomicswaps_4.qasm");
+        // double phase = app.Run("Programs/phase_estimate_atomicswaps_4-func.qasm");
+        // double phase = app.Run("Programs/phase_estimate_atomicswaps_5.qasm");
+        // double phase = app.Run("Programs/phase_estimate_atomicswaps_6.qasm");
+        double phase = app.Run("Programs/phase_estimate_atomicswaps_6-func.qasm");
 
         //// END OF QUANTUM PART
 
-        // Simulate a response from QC
-        double phase = measurement;
         Console.WriteLine($"Measured phase: {phase}");
 
         if (phase == 0 || phase == 1)
@@ -56,13 +50,13 @@ internal class FactorIntegerQiskit
             return;
         }
         
-        // It should be enough with 8 here. It should be 2^#qubits
+        // It should be 2^#qubits. TODO: Calculate this dynamically
         Fraction frac = Fraction.LimitDenominator(phase, 64);
         Console.WriteLine($"frac: {frac}");
         int r = frac.Denominator;
         Console.WriteLine($"r: {r}");
 
-        int factor = GCD((int)Math.Pow(a, r / 2) - 1, N);
+        int factor = GCD((int)Math.Pow(8, r / 2) - 1, N);
         Console.WriteLine($"Candidate factor: {factor}");
 
         if(factor == 1 || factor == N)

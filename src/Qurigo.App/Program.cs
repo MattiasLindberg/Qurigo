@@ -59,6 +59,7 @@ internal class QurigoApp
 
         Parser parser = new Parser();
         parser.Parse(new Tokenizer(program));
+        _executionContext.Variables = parser.Variables;
 
         foreach (IExecutionNode node in parser.Nodes)
         {

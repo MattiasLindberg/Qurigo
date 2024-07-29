@@ -1,7 +1,7 @@
 ﻿OPENQASM 3;
 
-# 0, 1, 2, 3, 4, 5    : control registers
-# 6, 7, 8, 9 : target registers
+# 0, 1, 2, 3, 4, 5 : control registers
+# 6, 7, 8, 9       : target registers
 qubit[10] q;
 
 def qft6i() {
@@ -38,15 +38,16 @@ def qft6i() {
 }
 
 
-# Psi_prep
-x q[6];
-
+# Put each of the control qubits in a superposition
 h q[0];
 h q[1];
 h q[2];
 h q[3];
 h q[4];
 h q[5];
+
+# Prepare the target qubits
+x q[6];
 
 # control_register[0]
 cswap q[0], q[6], q[7];
