@@ -31,6 +31,18 @@
     <None Update="Programs\mini1.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Programs\phase_estimate_atomicswaps_3.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\phase_estimate_atomicswaps_2.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\phase_estimate_atomicswaps_1.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\phase_estimate_atomicswaps_4-func-neworder.qasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Programs\phase_estimate_atomicswaps_4-func.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

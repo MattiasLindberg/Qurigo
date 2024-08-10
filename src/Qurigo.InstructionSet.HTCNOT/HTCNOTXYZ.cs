@@ -95,20 +95,23 @@ public class HTCNOTXYZ : IInstructionSet
         var step20 = T(actOnQubit);
         var step21 = H(actOnQubit);
 
-        NDarray result = np.dot(step1.Base,
-            np.dot(step2.Base,
-                np.dot(step3,
-                    np.dot(step4.Base,
-                        np.dot(step5.Base,
-                            np.dot(step6.Base,
-                                np.dot(step7,
-                                    np.dot(step8.Base,
-                                        np.dot(step10.Base,
-                                            np.dot(step11.Base,
-                                                np.dot(step12,
-                                                    np.dot(step13.Base,
-                                                        np.dot(step14.Base,
-                                                            np.dot(step20.Base, step21.Base))))))))))))));
+        NDarray result = 
+            np.dot(step1.Base,
+                np.dot(step2.Base,
+                    np.dot(step3,
+                        np.dot(step4.Base,
+                            np.dot(step5.Base,
+                                np.dot(step6.Base,
+                                    np.dot(step7,
+                                        np.dot(step8.Base,
+
+                                            np.dot(step10.Base,
+                                                np.dot(step11.Base,
+                                                    np.dot(step12,
+                                                        np.dot(step13.Base,
+                                                            np.dot(step14.Base,
+
+                                                                np.dot(step20.Base, step21.Base))))))))))))));
 
         return new Gate(result);
     }
@@ -173,6 +176,35 @@ public class HTCNOTXYZ : IInstructionSet
         
         var res = np.dot(step1.Base, np.dot(step2.Base, step3.Base));
         return new Gate(res);
+    }
+
+    public IGate CSWAP_X(int controlQubit, int actOnQubit1, int actOnQubit2)
+    {
+        var step1  = H(actOnQubit1);
+        var step2  = CNOT(actOnQubit1, actOnQubit2);
+        var step3  = T(actOnQubit1);
+        var step4  = CNOT(controlQubit, actOnQubit1);
+        var step5  = T(actOnQubit1).Dagger;
+        var step6  = CNOT(actOnQubit2, actOnQubit1);
+        var step7  = T(actOnQubit1);
+        var step8  = CNOT(controlQubit, actOnQubit1);
+        var step9  = T(actOnQubit1).Dagger;
+        var step10 = CNOT(actOnQubit1, actOnQubit2);
+        var step11 = H(actOnQubit1);
+
+        NDarray result = 
+            np.dot(step1.Base,
+                np.dot(step2.Base,
+                    np.dot(step3.Base,
+                        np.dot(step4.Base,
+                            np.dot(step5,
+                                np.dot(step6.Base,
+                                    np.dot(step7.Base,
+                                        np.dot(step8.Base,
+                                            np.dot(step9,
+                                                np.dot(step10.Base, step11.Base))))))))));
+
+        return new Gate(result);
     }
 
     public IGate CSWAP(int controlQubit, int actOnQubit1, int actOnQubit2)
@@ -264,116 +296,6 @@ public class HTCNOTXYZ : IInstructionSet
         NDarray result = matrixZeroPart + matrixOnePart;
 
         return new Gate(result);
-
-
-
-
-
-        //NDarray zeroOperator = np.array(new double[,] {
-        //    { 1, 0 },
-        //    { 0, 0 }
-        //});
-        //NDarray oneOperator = np.array(new double[,] {
-        //    { 0, 0 },
-        //    { 0, 1 }
-        //});
-
-        //NDarray matrixZeroPart = _identity;
-        //int zeroCount = 1;
-
-        //while (zeroCount < newControl)
-        //{
-        //    matrixZeroPart = np.kron(matrixZeroPart, _identity);
-        //    zeroCount++;
-        //}
-
-        //if (newControl == 0)
-        //{
-        //    // |0><0|
-        //    matrixZeroPart = zeroOperator;
-        //    zeroCount = 1;
-        //}
-        //else
-        //{
-        //    matrixZeroPart = np.kron(matrixZeroPart, zeroOperator);
-        //    zeroCount++;
-        //}
-
-        //while (zeroCount < _qubitCount)
-        //{
-        //    matrixZeroPart = np.kron(matrixZeroPart, _identity);
-        //    zeroCount++;
-        //}
-
-
-        //NDarray matrixOnePart = _identity;
-        //int oneCount = 1;
-
-
-        //while (oneCount < newControl)
-        //{
-        //    matrixOnePart = np.kron(matrixOnePart, _identity);
-        //    oneCount++;
-        //}
-
-        //if (newControl == 0)
-        //{
-        //    // |1><1|
-        //    matrixOnePart = oneOperator;
-        //    oneCount = 1;
-        //}
-        //else
-        //{
-        //    matrixOnePart = np.kron(matrixOnePart, oneOperator);
-        //    oneCount++;
-        //}
-
-        //while (oneCount < newActOn)
-        //{
-        //    matrixOnePart = np.kron(matrixOnePart, _identity);
-        //    oneCount++;
-        //}
-
-        //matrixOnePart = np.kron(matrixOnePart, swapQiAndQiplus1);
-        //oneCount++;
-        //oneCount++;
-
-        //while (oneCount < _qubitCount)
-        //{
-        //    matrixOnePart = np.kron(matrixOnePart, _identity);
-        //    oneCount++;
-        //}
-
-        //for (int i = 0; i < size; i++)
-        //{
-        //    for (int j = 0; j < size; j++)
-        //    {
-        //        Console.Write(matrixOnePart[i, j] + "   ");
-        //    }
-        //    Console.WriteLine();
-        //}
-
-        // NDarray result = matrixZeroPart + matrixOnePart;
-
-        //    return new Gate(result);
-    }
-
-    private int Swap(int number, int pos1, int pos2)
-    {
-        int bit1 = (number >> pos1) & 1;
-        int bit3 = (number >> pos2) & 1;
-
-        // Check if bits are different
-        if (bit1 != bit3)
-        {
-            // Create a bit mask with bits at position pos1 and pos2 set to 1
-            int mask = (1 << pos1) | (1 << pos2);
-
-            // Toggle bits at positions pos1 and pos2
-            number ^= mask;
-        }
-
-        return number;
     }
 
     public IGate S(int actOnQubit)
@@ -385,6 +307,7 @@ public class HTCNOTXYZ : IInstructionSet
         });
 
         NDarray matrix = GenericGateLittleEndian(zGate, actOnQubit);
+        matrix.transpose().conj();
 
         return new Gate(matrix);
     }
@@ -394,7 +317,7 @@ public class HTCNOTXYZ : IInstructionSet
         NDarray rkGate = np.array(new Complex[,]
         {
             { 1, 0 },
-            { 0, Complex.Exp(new Complex(0,1) * 2 * Math.PI / Math.Pow(2, k)) }
+            { 0, Complex.Exp(-new Complex(0,1) * 2 * Math.PI / Math.Pow(2, k)) }
         });
 
         NDarray matrix = GenericControlledLittleEndian(rkGate, controlQubit, actOnQubit);

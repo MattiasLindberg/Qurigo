@@ -12,4 +12,5 @@ public interface IState
     string ToString();
     Complex[] ToArray();
     double Measure();
+    NDarray PartialTrace(NDarray stateVector, int[] tracedOutQubits, int numQubitsInStateVector);
 }

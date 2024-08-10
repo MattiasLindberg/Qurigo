@@ -40,4 +40,9 @@ public class DensityMatrix : IState
         var measurement_result = np.random.choice(values, null, true, probabilities.flatten());
         return (double)measurement_result;
     }
+
+    public NDarray PartialTrace(NDarray stateVector, int[] tracedOutQubits, int numQubitsInStateVector)
+    {
+        throw new NotImplementedException();
+    }
 }

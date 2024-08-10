@@ -6,13 +6,13 @@ qubit[8] q;
 
 def qft4i() {
 	h q[3];
-	crk q[3], q[0], 4;
-	crk q[3], q[1], 3;
 	crk q[3], q[2], 2;
+	crk q[3], q[1], 3;
+	crk q[3], q[0], 4;
 
 	h q[2];
-	crk q[2], q[0], 3;
 	crk q[2], q[1], 2;
+	crk q[2], q[0], 3;
 
 	h q[1];
 	crk q[1], q[0], 2;

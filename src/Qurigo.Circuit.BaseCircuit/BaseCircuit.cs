@@ -58,7 +58,7 @@ public class QuantumCircuit : IQuantumCircuit
                 break;
 
             case GateNames.CSWAP:
-                Console.WriteLine($"CSWAP: {parameters[0].Index}, {parameters[1].Index}, {parameters[2].Index}");
+//                Console.WriteLine($"CSWAP: {parameters[0].Index}, {parameters[1].Index}, {parameters[2].Index}");
                 _state.ApplyGate(_instructionSet.CSWAP(parameters[0].Index, parameters[1].Index, parameters[2].Index));
                 break;
 

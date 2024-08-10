@@ -32,13 +32,17 @@ internal class FactorIntegerQiskit
         QurigoApp app = new QurigoApp(serviceProvider.GetService<ICircuit>()!, serviceProvider.GetService<IQuantumCircuit>()!, serviceProvider.GetService<IExecutionContext>()!);
         // double phase = app.Run("Programs/phase_estimate_atomicswaps_7controls.qasm");
         // double phase = app.Run("Programs/phase_estimate_atomicswaps.qasm");
+        // double phase = app.Run("Programs/phase_estimate_atomicswaps_2.qasm");
         // double phase = app.Run("Programs/phase_estimate_atomicswaps_4.qasm");
-        // double phase = app.Run("Programs/phase_estimate_atomicswaps_4-func.qasm");
+        double phase = app.Run("Programs/phase_estimate_atomicswaps_4-func.qasm");
         // double phase = app.Run("Programs/phase_estimate_atomicswaps_5.qasm");
         // double phase = app.Run("Programs/phase_estimate_atomicswaps_6.qasm");
-        double phase = app.Run("Programs/phase_estimate_atomicswaps_6-func.qasm");
+        // double phase = app.Run("Programs/phase_estimate_atomicswaps_6-func.qasm");
+        // double phase = app.Run("Programs/qft_4-inverse.qasm");
 
         //// END OF QUANTUM PART
+
+//        return; 
 
         Console.WriteLine($"Measured phase: {phase}");
 

@@ -33,6 +33,57 @@ public class VectorState : IState
         return (double)measurement_result;
     }
 
+    public NDarray PartialTrace(NDarray stateVector, int[] tracedOutQubits, int numQubitsInStateVector)
+    {
+        double[] values = new double[stateVector.size];
+
+        int numTracedOut = tracedOutQubits.Length;
+        int numRemaining = numQubitsInStateVector - numTracedOut;
+        int dim = (int)Math.Pow(2, numQubitsInStateVector);
+        int dimReduced = (int)Math.Pow(2, numRemaining);
+
+        // Initialize the reduced density matrix
+        NDarray reducedDensityMatrix = np.zeros(new int[] { dimReduced, dimReduced });
+
+        for (int i = 0; i < dim; i++)
+        {
+            for (int j = 0; j < dim; j++)
+            {
+                bool match = true;
+                int reducedI = 0, reducedJ = 0;
+                int bitPos = 0;
+
+                for (int k = 0; k < numQubitsInStateVector; k++)
+                {
+                    int bitI = (i >> k) & 1;
+                    int bitJ = (j >> k) & 1;
+
+                    if (Array.Exists(tracedOutQubits, element => element == k))
+                    {
+                        if (bitI != bitJ)
+                        {
+                            match = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        reducedI |= (bitI << bitPos);
+                        reducedJ |= (bitJ << bitPos);
+                        bitPos++;
+                    }
+                }
+
+                if (match)
+                {
+                    reducedDensityMatrix[reducedI, reducedJ] += values[i] * values[j];
+                }
+            }
+        }
+
+        return reducedDensityMatrix;
+    }
+
     public void Initialize(int qubitCount)
     {
         Size = (int)Math.Pow(2, qubitCount);

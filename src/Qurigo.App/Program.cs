@@ -66,7 +66,7 @@ internal class QurigoApp
             node.Execute(_executionContext);
         }
 
-        Console.WriteLine(_circuit.GetState().ToString());
+//        Console.WriteLine(_circuit.GetState().ToString());
 
         double measurement = _circuit.GetState().Measure();
         Console.WriteLine($"measurement= {measurement}");
@@ -74,10 +74,10 @@ internal class QurigoApp
         int measurementInt = (int)measurement;
         Console.WriteLine($"measurementInt= {measurementInt}");
 
-        int measurementInt2 = (int)measurementInt & 0b111111;
+        int measurementInt2 = (int)measurementInt & 0b1111;
         Console.WriteLine($"measurementInt2= {measurementInt2}");
 
-        double returnValue = measurementInt2 / 64.0;
+        double returnValue = measurementInt2 / 16.0;
 
         return returnValue;
     }
