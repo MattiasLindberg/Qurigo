@@ -16,6 +16,7 @@ public interface IInstructionSet
     IGate Y(int actOnQubit);
     IGate Z(int actOnQubit);
     IGate SWAP(int actOnQubit1, int actOnQubit2);
+    IGate CSWAP(int controlQubit, int actOnQubit1, int actOnQubit2);
     IGate Toffoli(int controlQubit1, int controlQubit2, int actOnQubit);
 
     IGate SX(int actOnQubit);

@@ -27,4 +27,22 @@ public class DensityMatrix : IState
     {
         throw new NotImplementedException();
     }
+
+    public double Measure()
+    {
+        var probabilities = np.abs(State).pow(2);
+        double[] values = new double[State.size];
+
+        for (int i = 0; i < State.size; i++)
+        {
+            values[i] = i;
+        }
+        var measurement_result = np.random.choice(values, null, true, probabilities.flatten());
+        return (double)measurement_result;
+    }
+
+    public NDarray PartialTrace(NDarray stateVector, int[] tracedOutQubits, int numQubitsInStateVector)
+    {
+        throw new NotImplementedException();
+    }
 }

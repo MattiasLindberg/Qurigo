@@ -4,8 +4,76 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using System.Text.RegularExpressions;
+using Qurigo.State.VectorState;
 
 namespace Qurigo.Circuit.BaseCircuit;
+
+public interface IQuantumCircuit
+{
+    void Initialize(int qubitCount);
+    void ApplyGate(GateNames gateType, IList<Parameter> parameters);
+}
+public class QuantumCircuit : IQuantumCircuit
+{
+    private IState _state;
+    private readonly IInstructionSet _instructionSet;
+
+    public QuantumCircuit(IState state, IInstructionSet instructionSet)
+    {
+        _state = state;
+        _instructionSet = instructionSet;
+    }
+    public void Initialize(int qubitCount)
+    {
+        _state.Initialize(qubitCount);
+        _instructionSet.Initialize(qubitCount);
+    }
+
+    public void ApplyGate(GateNames gateType, IList<Parameter> parameters)
+    {
+        switch (gateType)
+        {
+            case GateNames.X:
+                _state.ApplyGate(_instructionSet.X(parameters[0].Index));
+                break;
+
+            case GateNames.Y:
+                _state.ApplyGate(_instructionSet.Y(parameters[0].Index));
+                break;
+
+            case GateNames.Z:
+                _state.ApplyGate(_instructionSet.Z(parameters[0].Index));
+                break;
+
+            case GateNames.H:
+                _state.ApplyGate(_instructionSet.H(parameters[0].Index));
+                break;
+
+            case GateNames.T:
+                _state.ApplyGate(_instructionSet.T(parameters[0].Index));
+                break;
+
+            case GateNames.SWAP:
+                _state.ApplyGate(_instructionSet.SWAP(parameters[0].Index, parameters[1].Index));
+                break;
+
+            case GateNames.CSWAP:
+//                Console.WriteLine($"CSWAP: {parameters[0].Index}, {parameters[1].Index}, {parameters[2].Index}");
+                _state.ApplyGate(_instructionSet.CSWAP(parameters[0].Index, parameters[1].Index, parameters[2].Index));
+                break;
+
+            case GateNames.CX:
+                _state.ApplyGate(_instructionSet.CNOT(parameters[0].Index, parameters[1].Index));
+                break;
+
+            case GateNames.CRK:
+                _state.ApplyGate(_instructionSet.CRk(parameters[0].Index, parameters[1].Index, parameters[2].Index));
+                break;
+        }
+    }
+}
+
+
 
 public class BaseCircuit : ICircuit
 {
@@ -87,10 +155,10 @@ public class BaseCircuit : ICircuit
         {
             // Split each line into tokens
             string[] tokens = lines[loop].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            int actOnQubit1 = -1;
-            int actOnQubit2 = -1;
-            int controlQubit1 = -1;
-            int controlQubit2 = -1;
+            int actOnQubit1;
+            int actOnQubit2;
+            int controlQubit1;
+            int controlQubit2;
 
             if( tokens.Length == 0 )
             {

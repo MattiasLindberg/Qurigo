@@ -9,7 +9,7 @@ namespace Qurigo.InstructionSet.HTCNOT;
 
 public class IBMEagleR3 : IInstructionSet
 {
-    public GateNames NativeGates => GateNames.H | GateNames.T | GateNames.CNOT | GateNames.X | GateNames.Y | GateNames.Z;
+    public GateNames NativeGates => GateNames.H | GateNames.T | GateNames.CX | GateNames.X | GateNames.Y | GateNames.Z;
 
     public GateNames SupportedGates => NativeGates | GateNames.SqrtX;
 
@@ -152,6 +152,11 @@ public class IBMEagleR3 : IInstructionSet
         
         var res = np.dot(step1.Base, np.dot(step2.Base, step3.Base));
         return new Gate(res);
+    }
+
+    public IGate CSWAP(int controlQubit, int actOnQubit1, int actOnQubit2)
+    {
+        throw new NotImplementedException();
     }
 
     public IGate SX(int actOnQubit)

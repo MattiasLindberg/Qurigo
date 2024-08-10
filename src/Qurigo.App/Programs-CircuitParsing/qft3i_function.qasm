@@ -1,7 +1,4 @@
-﻿OPENQASM 3;
-
-qubit p;
-qubit[3] q;
+﻿qreg q[3];
 
 def qft3i() {
 	x q[0];

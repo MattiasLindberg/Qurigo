@@ -186,10 +186,10 @@ public class HTCNOTXYZOtherGatesTests
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] {
-            new Complex(0, 0),
-            new Complex(0, 0),
-            new Complex(0, 0),
-            new Complex(0, 1),
+            new Complex(0, 0), // 00
+            new Complex(0, 0), // 01
+            new Complex(0, 0), // 10
+            new Complex(0, 1), // 11
         });
 
         Assert.IsTrue(np.allclose(result, expected));
