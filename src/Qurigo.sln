@@ -9,15 +9,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qurigo.Interfaces", "Qurigo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qurigo.UnitTests", "Qurigo.UnitTests\Qurigo.UnitTests.csproj", "{16F32CE5-6E27-4D30-881F-37876D5B4CE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qurigo.State", "Qurigo.State\Qurigo.State.csproj", "{A4FCD397-1D38-400A-BFF6-9D4B9A019123}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qurigo.State", "Qurigo.State\Qurigo.State.csproj", "{A4FCD397-1D38-400A-BFF6-9D4B9A019123}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qurigo.InstructionSet", "Qurigo.InstructionSet\Qurigo.InstructionSet.csproj", "{7B057DAF-B7D3-4694-BAA1-610A0D80A58A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qurigo.InstructionSet", "Qurigo.InstructionSet\Qurigo.InstructionSet.csproj", "{7B057DAF-B7D3-4694-BAA1-610A0D80A58A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShorsAlgorithm", "ShorsAlgorithm\ShorsAlgorithm.csproj", "{252C6810-9473-487A-BDC1-9CF56FEFC76E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShorsAlgorithm", "ShorsAlgorithm\ShorsAlgorithm.csproj", "{252C6810-9473-487A-BDC1-9CF56FEFC76E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qurigo.Simulator", "Qurigo.Simulator\Qurigo.Simulator.csproj", "{AEEA5674-E804-4321-80B2-624BC8451D36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qurigo.Simulator", "Qurigo.Simulator\Qurigo.Simulator.csproj", "{AEEA5674-E804-4321-80B2-624BC8451D36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qurigo.Circuit", "Qurigo.Circuit\Qurigo.Circuit.csproj", "{BB4C1411-9D50-492F-8551-40935CF78CEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qurigo.Circuit", "Qurigo.Circuit\Qurigo.Circuit.csproj", "{BB4C1411-9D50-492F-8551-40935CF78CEE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C79C47E-C9FB-4FF9-AF88-7CDE7860D7CA}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
