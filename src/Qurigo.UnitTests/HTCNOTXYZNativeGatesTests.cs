@@ -1,8 +1,8 @@
 using Numpy;
-using Qurigo.Circuit.BaseCircuit;
-using Qurigo.InstructionSet.HTCNOT;
+using Qurigo.Circuit;
+using Qurigo.InstructionSet;
 using Qurigo.Interfaces;
-using Qurigo.State.VectorState;
+using Qurigo.State;
 using System.Numerics;
 
 namespace Qurigo.UnitTests;
@@ -10,21 +10,21 @@ namespace Qurigo.UnitTests;
 [TestClass]
 public class HTCNOTXYZNativeGatesTests
 {
-    private ICircuit _circuit;
+    private IQuantumCircuit _circuit;
 
     [TestInitialize]
     public void SetupTests()
     {
         var instructionSet = new HTCNOTXYZ();
         var state = new VectorState();
-        _circuit = new BaseCircuit(instructionSet, state);
+        _circuit = new QuantumCircuit(state, instructionSet);
     }
 
     [TestMethod]
     public void H()
     {
-
-        _circuit.ExecuteProgram("qreg q[1];\nh q[0];");
+        _circuit.Initialize(1);
+        _circuit.ApplyGate(GateNames.H, new List<Parameter>() { new Parameter() { Index = 0 } });
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] { 
@@ -38,7 +38,8 @@ public class HTCNOTXYZNativeGatesTests
     [TestMethod]
     public void X()
     {
-        _circuit.ExecuteProgram("qreg q[1];\nx q[0];");
+        _circuit.Initialize(1);
+        _circuit.ApplyGate(GateNames.X, new List<Parameter>() { new Parameter() { Index = 0 } });
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] {
@@ -52,7 +53,8 @@ public class HTCNOTXYZNativeGatesTests
     [TestMethod]
     public void Y()
     {
-        _circuit.ExecuteProgram("qreg q[1];\ny q[0];");
+        _circuit.Initialize(1);
+        _circuit.ApplyGate(GateNames.Y, new List<Parameter>() { new Parameter() { Index = 0 } });
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] {
@@ -66,7 +68,8 @@ public class HTCNOTXYZNativeGatesTests
     [TestMethod]
     public void Z()
     {
-        _circuit.ExecuteProgram("qreg q[1];\nz q[0];");
+        _circuit.Initialize(1);
+        _circuit.ApplyGate(GateNames.Z, new List<Parameter>() { new Parameter() { Index = 0 } });
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] {
@@ -80,7 +83,8 @@ public class HTCNOTXYZNativeGatesTests
     [TestMethod]
     public void T_1()
     {
-        _circuit.ExecuteProgram("qreg q[1];\nt q[0];");
+        _circuit.Initialize(1);
+        _circuit.ApplyGate(GateNames.T, new List<Parameter>() { new Parameter() { Index = 0 } });
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] {
@@ -94,7 +98,10 @@ public class HTCNOTXYZNativeGatesTests
     [TestMethod]
     public void T_2()
     {
-        _circuit.ExecuteProgram("qreg q[1];\nx q[0];\nt q[0];");
+        _circuit.Initialize(1);
+        _circuit.ApplyGate(GateNames.X, new List<Parameter>() { new Parameter() { Index = 0 } });
+        _circuit.ApplyGate(GateNames.T, new List<Parameter>() { new Parameter() { Index = 0 } });
+
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] {
@@ -108,7 +115,8 @@ public class HTCNOTXYZNativeGatesTests
     [TestMethod]
     public void CNOT_1()
     {
-        _circuit.ExecuteProgram("qreg q[2];\ncx q[0], q[1];");
+        _circuit.Initialize(2);
+        _circuit.ApplyGate(GateNames.CX, new List<Parameter>() { new Parameter() { Index = 0 }, new Parameter() { Index = 1 } });
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] {
@@ -124,7 +132,9 @@ public class HTCNOTXYZNativeGatesTests
     [TestMethod]
     public void CNOT_2()
     {
-        _circuit.ExecuteProgram("qreg q[2];\nx q[0];\ncx q[0], q[1];");
+        _circuit.Initialize(2);
+        _circuit.ApplyGate(GateNames.X, new List<Parameter>() { new Parameter() { Index = 0 } });
+        _circuit.ApplyGate(GateNames.CX, new List<Parameter>() { new Parameter() { Index = 0 }, new Parameter() { Index = 1 } });
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] {
@@ -140,7 +150,10 @@ public class HTCNOTXYZNativeGatesTests
     [TestMethod]
     public void CNOT_3()
     {
-        _circuit.ExecuteProgram("qreg q[2];\nx q[0];\nx q[1];\ncx q[0], q[1];");
+        _circuit.Initialize(2);
+        _circuit.ApplyGate(GateNames.X, new List<Parameter>() { new Parameter() { Index = 0 } });
+        _circuit.ApplyGate(GateNames.X, new List<Parameter>() { new Parameter() { Index = 1 } });
+        _circuit.ApplyGate(GateNames.CX, new List<Parameter>() { new Parameter() { Index = 0 }, new Parameter() { Index = 1 } });
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] {
@@ -156,7 +169,10 @@ public class HTCNOTXYZNativeGatesTests
     [TestMethod]
     public void CNOT_4()
     {
-        _circuit.ExecuteProgram("qreg q[2];\nx q[0];\nx q[1];\ncx q[1], q[0];");
+        _circuit.Initialize(2);
+        _circuit.ApplyGate(GateNames.X, new List<Parameter>() { new Parameter() { Index = 0 } });
+        _circuit.ApplyGate(GateNames.X, new List<Parameter>() { new Parameter() { Index = 1 } });
+        _circuit.ApplyGate(GateNames.CX, new List<Parameter>() { new Parameter() { Index = 1 }, new Parameter() { Index = 0 } });
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] {
