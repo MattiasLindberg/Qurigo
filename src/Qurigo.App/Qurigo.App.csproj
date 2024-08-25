@@ -12,10 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Qurigo.Circuit.BaseCircuit\Qurigo.Circuit.BaseCircuit.csproj" />
-    <ProjectReference Include="..\Qurigo.InstructionSet.HTCNOT\Qurigo.InstructionSet.HTCNOT.csproj" />
+    <ProjectReference Include="..\Qurigo.Circuit\Qurigo.Circuit.csproj" />
+    <ProjectReference Include="..\Qurigo.InstructionSet\Qurigo.InstructionSet.csproj" />
     <ProjectReference Include="..\Qurigo.Interfaces\Qurigo.Interfaces.csproj" />
-    <ProjectReference Include="..\Qurigo.State.VectorState\Qurigo.State.VectorState.csproj" />
+    <ProjectReference Include="..\Qurigo.Simulator\Qurigo.Simulator.csproj" />
+    <ProjectReference Include="..\Qurigo.State\Qurigo.State.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -107,33 +108,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Programs\qft_3.qasm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Programs-CircuitParsing\IBM2.qasm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Programs-CircuitParsing\GrooverIBM.qasm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Programs-CircuitParsing\crk validation.qasm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Programs-CircuitParsing\qft_2-inverse.qasm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Programs-CircuitParsing\qft3i_function.qasm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Programs-CircuitParsing\qft_3-inverse.qasm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Programs-CircuitParsing\qft_3.qasm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Programs-CircuitParsing\qft_2.qasm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Programs-CircuitParsing\mini1.qasm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

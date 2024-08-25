@@ -3,8 +3,7 @@ using Qurigo.Circuit;
 using Qurigo.InstructionSet;
 using Qurigo.Interfaces;
 using Qurigo.State;
-
-namespace Qurigo.App;
+namespace ShorsAlgorithm;
 
 internal class Program
 {
