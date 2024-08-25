@@ -324,11 +324,6 @@ public class Parser
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
                             token = tokenizer.NextToken(TokenType.Comma);
-                            //token = tokenizer.NextToken();
-                            //if (token.Value != ",")
-                            //{
-                            //    throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
-                            //}
 
                             token = tokenizer.NextToken(TokenType.Identifier);
                             param2 = new Parameter
@@ -385,11 +380,6 @@ public class Parser
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
                             token = tokenizer.NextToken(TokenType.Comma);
-                            //token = tokenizer.NextToken();
-                            //if (token.Value != ",")
-                            //{
-                            //    throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
-                            //}
 
                             // Qubit reference 2
                             token = tokenizer.NextToken(TokenType.Identifier);
@@ -406,11 +396,7 @@ public class Parser
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
                             token = tokenizer.NextToken(TokenType.Comma);
-                            //token = tokenizer.NextToken();
-                            //if (token.Value != ",")
-                            //{
-                            //    throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
-                            //}
+
 
                             // Qubit reference 3
                             token = tokenizer.NextToken(TokenType.Identifier);
@@ -454,11 +440,6 @@ public class Parser
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
                             token = tokenizer.NextToken(TokenType.Comma);
-                            //token = tokenizer.NextToken();
-                            //if (token.Value != ",")
-                            //{
-                            //    throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
-                            //}
 
                             token = tokenizer.NextToken(TokenType.Identifier);
                             param3 = new Parameter
@@ -476,11 +457,6 @@ public class Parser
                             token = tokenizer.NextToken(TokenType.RightBracket);
 
                             token = tokenizer.NextToken(TokenType.Comma);
-                            //token = tokenizer.NextToken();
-                            //if (token.Value != ",")
-                            //{
-                            //    throw new Exception($"Expected ',' but was {token.Type}, {token.Value}.");
-                            //}
 
                             token = tokenizer.NextToken(TokenType.Number);
                             param3 = new Parameter
