@@ -7,10 +7,10 @@ using Qurigo.Simulator;
 using System.Numerics;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Qurigo.UnitTests;
+namespace Qurigo.UnitTests.Density;
 
 [TestClass]
-public class HTCNOTXYZProgramTests
+public class DM_HTCNOTXYZProgramTests
 {
     private IQuantumCircuit _circuit;
     private QurigoSimulator _simulator;
@@ -19,7 +19,7 @@ public class HTCNOTXYZProgramTests
     public void SetupTests()
     {
         var serviceCollection = new ServiceCollection();
-        serviceCollection.AddSingleton<IState, VectorState>();
+        serviceCollection.AddSingleton<IState, DensityMatrix>();
         serviceCollection.AddSingleton<IInstructionSet, HTCNOTXYZ>();
         serviceCollection.AddSingleton<IQuantumCircuit, QuantumCircuit>();
         serviceCollection.AddSingleton<IExecutionContext, Qurigo.Simulator.ExecutionContext>();
@@ -42,7 +42,8 @@ public class HTCNOTXYZProgramTests
             0
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        var expectedMatrix = expected.outer(expected.conj());
+        Assert.IsTrue(result.array_equal(expectedMatrix));
     }
 
     [TestMethod]
@@ -88,7 +89,8 @@ public class HTCNOTXYZProgramTests
             0
         });
 
-        Assert.IsTrue(np.allclose(result, expected));
+        var expectedMatrix = expected.outer(expected.conj());
+        Assert.IsTrue(result.allclose(expectedMatrix));
     }
 
     [TestMethod]
@@ -116,7 +118,8 @@ public class HTCNOTXYZProgramTests
             0
         });
 
-        Assert.IsTrue(np.allclose(result, expected));
+        var expectedMatrix = expected.outer(expected.conj());
+        Assert.IsTrue(result.allclose(expectedMatrix));
     }
 
 }

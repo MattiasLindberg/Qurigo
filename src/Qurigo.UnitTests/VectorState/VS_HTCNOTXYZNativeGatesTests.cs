@@ -5,10 +5,10 @@ using Qurigo.Interfaces;
 using Qurigo.State;
 using System.Numerics;
 
-namespace Qurigo.UnitTests;
+namespace Qurigo.UnitTests.Vector;
 
 [TestClass]
-public class HTCNOTXYZNativeGatesTests
+public class VS_HTCNOTXYZNativeGatesTests
 {
     private IQuantumCircuit _circuit;
 
@@ -27,12 +27,12 @@ public class HTCNOTXYZNativeGatesTests
         _circuit.ApplyGate(GateNames.H, new List<Parameter>() { new Parameter() { Index = 0 } });
 
         var result = _circuit.GetState().State;
-        var expected = np.array(new Complex[] { 
-            new Complex(1 / Math.Sqrt(2), 0 ),  
+        var expected = np.array(new Complex[] {
+            new Complex(1 / Math.Sqrt(2), 0 ),
             new Complex( 1/Math.Sqrt(2), 0 ) }
         );
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -47,7 +47,7 @@ public class HTCNOTXYZNativeGatesTests
             1
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class HTCNOTXYZNativeGatesTests
             new Complex(0, 1)
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class HTCNOTXYZNativeGatesTests
             0
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -92,7 +92,7 @@ public class HTCNOTXYZNativeGatesTests
             new Complex(0, 0)
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -109,7 +109,7 @@ public class HTCNOTXYZNativeGatesTests
             new Complex(1/Math.Sqrt(2), 1/Math.Sqrt(2))
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -126,7 +126,7 @@ public class HTCNOTXYZNativeGatesTests
             new Complex(0, 0)
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -144,7 +144,7 @@ public class HTCNOTXYZNativeGatesTests
             new Complex(1, 0)
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -163,7 +163,7 @@ public class HTCNOTXYZNativeGatesTests
             new Complex(0, 0)
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -182,6 +182,6 @@ public class HTCNOTXYZNativeGatesTests
             new Complex(0, 0)
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 }

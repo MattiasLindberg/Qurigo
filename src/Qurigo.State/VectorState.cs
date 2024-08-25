@@ -14,6 +14,12 @@ public class VectorState : IState
     private NDarray _state;
     public NDarray State { get => _state; }
 
+    private readonly NDarray _identity = np.array(new double[,]
+    {
+                { 1, 0 },
+                { 0, 1 }
+    });
+
     public IState ApplyGate(IGate gate)
     {
         _state = np.dot(gate.Base, State);
@@ -106,12 +112,6 @@ public class VectorState : IState
         }
         _state = np.dot(state, identity);
     }
-
-    private readonly NDarray _identity = np.array(new double[,]
-    {
-            { 1, 0 },
-            { 0, 1 }
-    });
 
     public override string ToString()
     {

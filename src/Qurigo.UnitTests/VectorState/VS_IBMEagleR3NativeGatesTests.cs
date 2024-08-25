@@ -5,10 +5,10 @@ using Qurigo.Interfaces;
 using Qurigo.State;
 using System.Numerics;
 
-namespace Qurigo.UnitTests;
+namespace Qurigo.UnitTests.Vector;
 
 [TestClass]
-public class IBMEagleR3NativeGatesTests
+public class VS_IBMEagleR3NativeGatesTests
 {
     private IQuantumCircuit _circuit;
 
@@ -25,14 +25,14 @@ public class IBMEagleR3NativeGatesTests
     {
         // _circuit.ExecuteProgram("qreg q[1];\nrz(pi/2) q[0];");
         _circuit.Initialize(1);
-        _circuit.ApplyGate(GateNames.RZ, new List<Parameter>() { new Parameter() { Index = 0 }, new Parameter() { Value = Math.PI/2 } });
+        _circuit.ApplyGate(GateNames.RZ, new List<Parameter>() { new Parameter() { Index = 0 }, new Parameter() { Value = Math.PI / 2 } });
 
         var result = _circuit.GetState().State;
         var expected = np.array(new Complex[] {
             new Complex(1 / Math.Sqrt(2), -1 / Math.Sqrt(2) ), 0 }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -94,7 +94,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -118,7 +118,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -149,7 +149,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -166,7 +166,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -184,7 +184,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -203,7 +203,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -233,7 +233,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -253,7 +253,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -273,7 +273,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -293,7 +293,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -314,7 +314,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -335,7 +335,7 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -356,6 +356,6 @@ public class IBMEagleR3NativeGatesTests
         }
         );
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 }

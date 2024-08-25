@@ -11,7 +11,6 @@ public class InstructionSetBase
             { 0, 1 }
         });
 
-
     public NDarray GenericControlledBigEndian(NDarray gateMatrix, int controlQubit, int actOnQubit)
     {
         if (controlQubit < actOnQubit)

@@ -7,10 +7,10 @@ using Qurigo.Simulator;
 using System.Numerics;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Qurigo.UnitTests;
+namespace Qurigo.UnitTests.Vector;
 
 [TestClass]
-public class IBMEagleR3ProgramTests
+public class VS_HTCNOTXYZProgramTests
 {
     private IQuantumCircuit _circuit;
     private QurigoSimulator _simulator;
@@ -20,9 +20,9 @@ public class IBMEagleR3ProgramTests
     {
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddSingleton<IState, VectorState>();
-        serviceCollection.AddSingleton<IInstructionSet, IBMEagleR3>();
+        serviceCollection.AddSingleton<IInstructionSet, HTCNOTXYZ>();
         serviceCollection.AddSingleton<IQuantumCircuit, QuantumCircuit>();
-        serviceCollection.AddSingleton<IExecutionContext, Qurigo.Simulator.ExecutionContext>();
+        serviceCollection.AddSingleton<IExecutionContext, Simulator.ExecutionContext>();
         var serviceProvider = serviceCollection.BuildServiceProvider();
 
         _simulator = new QurigoSimulator(serviceProvider.GetService<IExecutionContext>()!);
@@ -42,7 +42,7 @@ public class IBMEagleR3ProgramTests
             0
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -88,7 +88,7 @@ public class IBMEagleR3ProgramTests
             0
         });
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -116,7 +116,7 @@ public class IBMEagleR3ProgramTests
             0
         });
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
 }

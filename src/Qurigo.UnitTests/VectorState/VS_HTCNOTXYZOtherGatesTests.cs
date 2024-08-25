@@ -5,10 +5,10 @@ using Qurigo.Interfaces;
 using Qurigo.State;
 using System.Numerics;
 
-namespace Qurigo.UnitTests;
+namespace Qurigo.UnitTests.Vector;
 
 [TestClass]
-public class HTCNOTXYZOtherGatesTests
+public class VS_HTCNOTXYZOtherGatesTests
 {
     private IQuantumCircuit _circuit;
 
@@ -35,7 +35,7 @@ public class HTCNOTXYZOtherGatesTests
             new Complex(0, 0)
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class HTCNOTXYZOtherGatesTests
             new Complex(0, 0)
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class HTCNOTXYZOtherGatesTests
             new Complex(0, 0)
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -89,7 +89,7 @@ public class HTCNOTXYZOtherGatesTests
             new Complex(1, 0)
         });
 
-        Assert.IsTrue(np.array_equal(result, expected));
+        Assert.IsTrue(result.array_equal(expected));
     }
 
     [TestMethod]
@@ -113,7 +113,7 @@ public class HTCNOTXYZOtherGatesTests
             new Complex(1, 0)
         });
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -136,7 +136,7 @@ public class HTCNOTXYZOtherGatesTests
             new Complex(0, 0)
         });
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -161,7 +161,7 @@ public class HTCNOTXYZOtherGatesTests
             new Complex(0, 0)
         });
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -211,13 +211,13 @@ public class HTCNOTXYZOtherGatesTests
             new Complex(0, 0)
         });
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
     public void CRk_1()
     {
-//        _circuit.ExecuteProgram("qreg q[2];\ncrk q[0], q[1], 1;");
+        //        _circuit.ExecuteProgram("qreg q[2];\ncrk q[0], q[1], 1;");
         _circuit.Initialize(2);
         _circuit.ApplyGate(GateNames.CRK, new List<Parameter>() { new Parameter() { Index = 0 }, new Parameter() { Index = 1 }, new Parameter() { Index = 1 } });
 
@@ -229,7 +229,7 @@ public class HTCNOTXYZOtherGatesTests
             new Complex(0, 0), // 11
         });
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -248,7 +248,7 @@ public class HTCNOTXYZOtherGatesTests
             new Complex(0, 0), // 11
         });
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 
     [TestMethod]
@@ -268,6 +268,6 @@ public class HTCNOTXYZOtherGatesTests
             new Complex(-1, 0), // 11
         });
 
-        Assert.IsTrue(np.allclose(result, expected));
+        Assert.IsTrue(result.allclose(expected));
     }
 }

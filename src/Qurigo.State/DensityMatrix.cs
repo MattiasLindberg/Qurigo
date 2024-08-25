@@ -1,6 +1,8 @@
 ﻿using Numpy;
+using Numpy.Models;
 using Qurigo.Interfaces;
 using System.Numerics;
+using System.Security.Principal;
 
 namespace Qurigo.State;
 
@@ -8,19 +10,39 @@ public class DensityMatrix : IState
 {
     NDarray _state;
 
-    public int Size => throw new NotImplementedException();
+    public int Size { get; private set; }
 
-    public NDarray State => throw new NotImplementedException();
+    public NDarray State { get => _state; }
 
     public IState ApplyGate(IGate gate)
     {
-        _state = np.dot(gate.Base, _state, gate.Dagger);
+        _state = np.dot(gate.Base, np.dot(_state, gate.Dagger));
         return this;
     }
 
     public void Initialize(int qubitCount)
     {
-        throw new NotImplementedException();
+        Size = (int)Math.Pow(2, qubitCount);
+
+        // Init vector with size 2^qubitCount x 2^qubitCount
+        Shape shape = new Shape(shape: new int[] { Size, Size });
+        var state = np.zeros(shape, dtype: np.complex64);
+
+        // Set state to |000...0> (or whatever the qubit count is)
+        state[0,0] = np.array(new Complex[] { new Complex(1, 0) });
+
+
+        //// Without this extra np.dot the numbers does not come out as expected
+        //// when it is accessed. So this is a workaround, to compensate for
+        //// this behavior.
+        //var identity = _identity;
+        //for (int i = 1; i < qubitCount; i++)
+        //{
+        //    identity = np.kron(identity, _identity);
+        //}
+        //_state = np.dot(state, identity);
+
+        _state = state;
     }
 
     Complex[] IState.ToArray()
