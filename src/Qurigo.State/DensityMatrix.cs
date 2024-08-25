@@ -31,17 +31,6 @@ public class DensityMatrix : IState
         // Set state to |000...0> (or whatever the qubit count is)
         state[0,0] = np.array(new Complex[] { new Complex(1, 0) });
 
-
-        //// Without this extra np.dot the numbers does not come out as expected
-        //// when it is accessed. So this is a workaround, to compensate for
-        //// this behavior.
-        //var identity = _identity;
-        //for (int i = 1; i < qubitCount; i++)
-        //{
-        //    identity = np.kron(identity, _identity);
-        //}
-        //_state = np.dot(state, identity);
-
         _state = state;
     }
 
